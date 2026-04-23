@@ -37,6 +37,8 @@ html, body {
   position: fixed;
   width: 100%;
 }
+
+/* SCROLLABLE CONTENT AREA */
 .page {
   display: none;
   position: absolute;
@@ -47,6 +49,8 @@ html, body {
   overscroll-behavior: contain;
 }
 .page.active { display: block; }
+
+/* STICKY HEADER */
 .header {
   position: sticky;
   top: 0;
@@ -60,99 +64,462 @@ html, body {
 }
 .logo { font-size: 20px; font-weight: 900; letter-spacing: -0.5px; }
 .logo span { color: var(--accent); }
-.badge { background: var(--accent); color: #000; font-size: 11px; font-weight: 800; padding: 3px 10px; border-radius: 20px; }
+.badge {
+  background: var(--accent);
+  color: #000;
+  font-size: 11px;
+  font-weight: 800;
+  padding: 3px 10px;
+  border-radius: 20px;
+}
+
+/* FEED */
 .feed { padding: 10px 12px 16px; display: flex; flex-direction: column; gap: 10px; }
-.skin-card { background: var(--card); border: 1px solid var(--border); border-radius: 18px; overflow: hidden; transition: transform 0.12s; }
+
+/* SKIN CARD */
+.skin-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  overflow: hidden;
+  transition: transform 0.12s;
+}
 .skin-card:active { transform: scale(0.985); }
-.card-img { position: relative; height: 190px; background: linear-gradient(135deg, #13131e 0%, #1a1a2e 50%, #16213e 100%); display: flex; align-items: center; justify-content: center; overflow: hidden; }
-.card-img::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at center, rgba(240,185,11,0.06) 0%, transparent 70%); }
-.card-img img { max-height: 155px; max-width: 88%; object-fit: contain; filter: drop-shadow(0 8px 32px rgba(0,0,0,0.7)); position: relative; z-index: 1; }
-.card-img .no-img { font-size: 56px; position: relative; z-index: 1; }
-.type-badge { position: absolute; top: 10px; left: 10px; padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.4px; z-index: 2; }
-.t-Knife { background: rgba(224,64,251,.18); color: var(--knife); border: 1px solid rgba(224,64,251,.3); }
-.t-Glove { background: rgba(255,152,0,.18); color: var(--glove); border: 1px solid rgba(255,152,0,.3); }
-.t-Rifle { background: rgba(79,195,247,.18); color: var(--rifle); border: 1px solid rgba(79,195,247,.3); }
-.t-Pistol { background: rgba(129,199,132,.18); color: var(--pistol); border: 1px solid rgba(129,199,132,.3); }
-.t-SMG { background: rgba(255,138,101,.18); color: var(--smg); border: 1px solid rgba(255,138,101,.3); }
-.t-Heavy { background: rgba(144,164,174,.18); color: var(--heavy); border: 1px solid rgba(144,164,174,.3); }
-.t-Other { background: rgba(144,144,170,.18); color: var(--sub); border: 1px solid var(--border); }
-.ext-badge { position: absolute; top: 10px; right: 10px; background: rgba(0,0,0,.65); backdrop-filter: blur(4px); padding: 4px 9px; border-radius: 8px; font-size: 11px; font-weight: 800; color: var(--accent); z-index: 2; }
+
+.card-img {
+  position: relative;
+  height: 190px;
+  background: linear-gradient(135deg, #13131e 0%, #1a1a2e 50%, #16213e 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.card-img::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, rgba(240,185,11,0.06) 0%, transparent 70%);
+}
+.card-img img {
+  max-height: 155px;
+  max-width: 88%;
+  object-fit: contain;
+  filter: drop-shadow(0 8px 32px rgba(0,0,0,0.7));
+  position: relative;
+  z-index: 1;
+}
+.card-img .no-img {
+  font-size: 56px;
+  position: relative;
+  z-index: 1;
+}
+
+.type-badge {
+  position: absolute;
+  top: 10px; left: 10px;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  z-index: 2;
+}
+.t-Knife   { background: rgba(224,64,251,.18); color: var(--knife); border: 1px solid rgba(224,64,251,.3); }
+.t-Glove   { background: rgba(255,152,0,.18); color: var(--glove); border: 1px solid rgba(255,152,0,.3); }
+.t-Rifle   { background: rgba(79,195,247,.18); color: var(--rifle); border: 1px solid rgba(79,195,247,.3); }
+.t-Pistol  { background: rgba(129,199,132,.18); color: var(--pistol); border: 1px solid rgba(129,199,132,.3); }
+.t-SMG     { background: rgba(255,138,101,.18); color: var(--smg); border: 1px solid rgba(255,138,101,.3); }
+.t-Heavy   { background: rgba(144,164,174,.18); color: var(--heavy); border: 1px solid rgba(144,164,174,.3); }
+.t-Other   { background: rgba(144,144,170,.18); color: var(--sub); border: 1px solid var(--border); }
+
+.ext-badge {
+  position: absolute;
+  top: 10px; right: 10px;
+  background: rgba(0,0,0,.65);
+  backdrop-filter: blur(4px);
+  padding: 4px 9px;
+  border-radius: 8px;
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--accent);
+  z-index: 2;
+}
+
 .card-body { padding: 14px; }
-.card-price { font-size: 26px; font-weight: 900; color: var(--accent); line-height: 1; margin-bottom: 5px; }
-.card-name { font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 12px; line-height: 1.3; }
-.card-meta { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
-.chip { background: var(--surface); border: 1px solid var(--border); padding: 4px 10px; border-radius: 8px; font-size: 11px; color: var(--sub); display: flex; align-items: center; gap: 3px; }
+.card-price {
+  font-size: 26px;
+  font-weight: 900;
+  color: var(--accent);
+  line-height: 1;
+  margin-bottom: 5px;
+}
+.card-name {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 12px;
+  line-height: 1.3;
+}
+.card-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 14px;
+}
+.chip {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 4px 10px;
+  border-radius: 8px;
+  font-size: 11px;
+  color: var(--sub);
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
 .chip b { color: var(--text); font-weight: 600; }
-.buy-btn { width: 100%; padding: 14px; background: var(--accent); color: #000; font-weight: 800; font-size: 15px; border: none; border-radius: 12px; cursor: pointer; letter-spacing: 0.2px; transition: opacity 0.15s; display: flex; align-items: center; justify-content: center; gap: 6px; }
+
+.card-seller {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 12px;
+  font-size: 12px;
+  color: var(--sub);
+}
+.seller-avatar {
+  width: 20px; height: 20px;
+  border-radius: 50%;
+  background: var(--card2);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 700; color: var(--accent);
+  border: 1px solid var(--border);
+  overflow: hidden;
+}
+.seller-avatar img { width: 100%; height: 100%; object-fit: cover; }
+
+.buy-btn {
+  width: 100%;
+  padding: 14px;
+  background: var(--accent);
+  color: #000;
+  font-weight: 800;
+  font-size: 15px;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  letter-spacing: 0.2px;
+  transition: opacity 0.15s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
 .buy-btn:active { opacity: 0.82; }
-.buy-btn:disabled { background: var(--border); color: var(--sub); cursor: not-allowed; }
-.state-box { padding: 60px 20px; text-align: center; color: var(--sub); }
+.buy-btn:disabled {
+  background: var(--border);
+  color: var(--sub);
+  cursor: not-allowed;
+}
+
+/* EMPTY / LOADING */
+.state-box {
+  padding: 60px 20px;
+  text-align: center;
+  color: var(--sub);
+}
 .state-box .icon { font-size: 52px; margin-bottom: 14px; }
 .state-box .title { font-size: 17px; font-weight: 700; color: var(--text); margin-bottom: 6px; }
 .state-box .desc { font-size: 13px; line-height: 1.5; }
-@keyframes shimmer { 0% { background-position: -400px 0; } 100% { background-position: 400px 0; } }
-.shimmer { background: linear-gradient(90deg, var(--card) 25%, var(--card2) 50%, var(--card) 75%); background-size: 800px 100%; animation: shimmer 1.4s infinite; border-radius: 8px; }
-.skeleton-card { background: var(--card); border: 1px solid var(--border); border-radius: 18px; overflow: hidden; }
+
+/* SHIMMER LOADING */
+@keyframes shimmer {
+  0% { background-position: -400px 0; }
+  100% { background-position: 400px 0; }
+}
+.shimmer {
+  background: linear-gradient(90deg, var(--card) 25%, var(--card2) 50%, var(--card) 75%);
+  background-size: 800px 100%;
+  animation: shimmer 1.4s infinite;
+  border-radius: 8px;
+}
+.skeleton-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  overflow: hidden;
+}
 .skel-img { height: 190px; }
 .skel-body { padding: 14px; display: flex; flex-direction: column; gap: 10px; }
 .skel-line { height: 12px; border-radius: 6px; }
-.tab-bar { position: fixed; bottom: 0; left: 0; right: 0; height: var(--tab-h); background: var(--surface); border-top: 1px solid var(--border); display: flex; z-index: 100; padding-bottom: env(safe-area-inset-bottom, 0px); }
-.tab-btn { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; cursor: pointer; border: none; background: none; color: var(--sub); font-size: 10px; font-weight: 600; letter-spacing: 0.3px; padding-bottom: 2px; transition: color 0.18s; }
+
+/* TAB BAR */
+.tab-bar {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  height: var(--tab-h);
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  display: flex;
+  z-index: 100;
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+.tab-btn {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  cursor: pointer;
+  border: none;
+  background: none;
+  color: var(--sub);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  padding-bottom: 2px;
+  transition: color 0.18s;
+}
 .tab-btn svg { width: 24px; height: 24px; }
 .tab-btn.active { color: var(--accent); }
 .tab-btn.active svg { filter: drop-shadow(0 0 5px rgba(240,185,11,0.5)); }
-.fab { position: fixed; right: 16px; bottom: calc(var(--tab-h) + 14px); width: 54px; height: 54px; background: var(--accent); color: #000; border: none; border-radius: 50%; font-size: 28px; font-weight: 300; line-height: 1; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 20px rgba(240,185,11,0.45); z-index: 90; transition: transform 0.12s; }
+
+/* FAB */
+.fab {
+  position: fixed;
+  right: 16px;
+  bottom: calc(var(--tab-h) + 14px);
+  width: 54px; height: 54px;
+  background: var(--accent);
+  color: #000;
+  border: none;
+  border-radius: 50%;
+  font-size: 28px;
+  font-weight: 300;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 20px rgba(240,185,11,0.45);
+  z-index: 90;
+  transition: transform 0.12s;
+}
 .fab:active { transform: scale(0.9); }
-.profile-top { background: linear-gradient(180deg, #1a1a2e 0%, var(--bg) 100%); padding: 28px 16px 22px; display: flex; flex-direction: column; align-items: center; gap: 10px; border-bottom: 1px solid var(--border); }
-.p-avatar { width: 76px; height: 76px; border-radius: 50%; border: 2.5px solid var(--accent); object-fit: cover; background: var(--card); display: flex; align-items: center; justify-content: center; font-size: 30px; font-weight: 900; color: var(--accent); overflow: hidden; }
+
+/* PROFILE PAGE */
+.profile-top {
+  background: linear-gradient(180deg, #1a1a2e 0%, var(--bg) 100%);
+  padding: 28px 16px 22px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  border-bottom: 1px solid var(--border);
+}
+.p-avatar {
+  width: 76px; height: 76px;
+  border-radius: 50%;
+  border: 2.5px solid var(--accent);
+  object-fit: cover;
+  background: var(--card);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30px;
+  font-weight: 900;
+  color: var(--accent);
+  overflow: hidden;
+}
 .p-avatar img { width: 100%; height: 100%; object-fit: cover; }
 .p-name { font-size: 20px; font-weight: 800; }
 .p-username { font-size: 13px; color: var(--sub); }
+
 .menu-list { padding: 10px 12px; display: flex; flex-direction: column; gap: 2px; }
 .menu-section { font-size: 11px; font-weight: 700; color: var(--sub); letter-spacing: 1px; text-transform: uppercase; padding: 14px 6px 6px; }
-.menu-item { display: flex; align-items: center; gap: 14px; padding: 15px 14px; background: var(--card); border: 1px solid var(--border); border-radius: 14px; cursor: pointer; transition: background 0.12s; margin-bottom: 2px; }
+.menu-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 15px 14px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  cursor: pointer;
+  transition: background 0.12s;
+  margin-bottom: 2px;
+}
 .menu-item:active { background: var(--card2); }
-.m-icon { width: 38px; height: 38px; border-radius: 11px; display: flex; align-items: center; justify-content: center; font-size: 19px; flex-shrink: 0; }
+.m-icon {
+  width: 38px; height: 38px;
+  border-radius: 11px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 19px;
+  flex-shrink: 0;
+}
 .m-label { font-size: 14px; font-weight: 600; flex: 1; }
 .m-value { font-size: 12px; color: var(--sub); margin-top: 2px; }
 .m-arrow { color: var(--border); font-size: 20px; font-weight: 300; }
 .m-text { flex: 1; }
-.overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.75); z-index: 200; display: flex; align-items: flex-end; opacity: 0; pointer-events: none; transition: opacity 0.22s; }
+
+/* MODALS */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.75);
+  z-index: 200;
+  display: flex;
+  align-items: flex-end;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.22s;
+}
 .overlay.open { opacity: 1; pointer-events: all; }
-.modal { background: var(--surface); border-radius: 24px 24px 0 0; padding: 0; width: 100%; max-height: 92vh; transform: translateY(100%); transition: transform 0.3s cubic-bezier(.32,1.2,.65,1); position: relative; overflow: hidden; }
+.modal {
+  background: var(--surface);
+  border-radius: 24px 24px 0 0;
+  padding: 0;
+  width: 100%;
+  max-height: 92vh;
+  transform: translateY(100%);
+  transition: transform 0.3s cubic-bezier(.32,1.2,.65,1);
+  position: relative;
+  overflow: hidden;
+}
 .overlay.open .modal { transform: translateY(0); }
-.modal-drag { width: 40px; height: 4px; background: var(--border); border-radius: 2px; margin: 12px auto 0; }
+.modal-drag {
+  width: 40px; height: 4px;
+  background: var(--border);
+  border-radius: 2px;
+  margin: 12px auto 0;
+}
 .modal-scroll { overflow-y: auto; max-height: calc(92vh - 16px); padding: 16px 16px 36px; }
 .modal-title { font-size: 18px; font-weight: 800; margin-bottom: 20px; }
-.modal-close { position: absolute; top: 12px; right: 12px; width: 32px; height: 32px; background: var(--card); border: 1px solid var(--border); border-radius: 50%; color: var(--sub); font-size: 18px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+.modal-close {
+  position: absolute; top: 12px; right: 12px;
+  width: 32px; height: 32px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  color: var(--sub);
+  font-size: 18px;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+}
+
+/* FORM */
 .field { margin-top: 14px; }
 .field label { display: block; font-size: 11px; font-weight: 700; color: var(--sub); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 7px; }
-.field input, .field select, .field textarea { width: 100%; background: var(--card); border: 1.5px solid var(--border); color: var(--text); padding: 13px 14px; border-radius: 12px; font-size: 15px; outline: none; font-family: inherit; transition: border-color 0.15s; -webkit-appearance: none; }
+.field input, .field select, .field textarea {
+  width: 100%;
+  background: var(--card);
+  border: 1.5px solid var(--border);
+  color: var(--text);
+  padding: 13px 14px;
+  border-radius: 12px;
+  font-size: 15px;
+  outline: none;
+  font-family: inherit;
+  transition: border-color 0.15s;
+  -webkit-appearance: none;
+}
 .field input:focus, .field select:focus, .field textarea:focus { border-color: var(--accent); }
 .field select option { background: var(--card); }
 .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-.img-drop { border: 2px dashed var(--border); border-radius: 14px; padding: 26px 16px; text-align: center; cursor: pointer; transition: border-color 0.15s, background 0.15s; background: var(--card); min-height: 100px; display: flex; align-items: center; justify-content: center; }
+
+.img-drop {
+  border: 2px dashed var(--border);
+  border-radius: 14px;
+  padding: 26px 16px;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+  background: var(--card);
+  min-height: 100px;
+  display: flex; align-items: center; justify-content: center;
+}
 .img-drop:active, .img-drop.has-img { border-color: var(--accent); background: var(--accent-dim); }
 .img-drop img { max-height: 110px; max-width: 100%; border-radius: 10px; object-fit: contain; }
 .img-drop .drop-hint { color: var(--sub); font-size: 13px; }
 .img-drop .drop-hint .big { font-size: 32px; margin-bottom: 6px; }
 #imgInput { display: none; }
-.submit-btn { width: 100%; padding: 16px; background: var(--accent); color: #000; font-weight: 800; font-size: 16px; border: none; border-radius: 14px; cursor: pointer; margin-top: 20px; transition: opacity 0.15s; display: flex; align-items: center; justify-content: center; gap: 8px; }
+
+.submit-btn {
+  width: 100%;
+  padding: 16px;
+  background: var(--accent);
+  color: #000;
+  font-weight: 800;
+  font-size: 16px;
+  border: none;
+  border-radius: 14px;
+  cursor: pointer;
+  margin-top: 20px;
+  transition: opacity 0.15s;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+}
 .submit-btn:active { opacity: 0.85; }
 .submit-btn:disabled { opacity: 0.5; cursor: not-allowed; }
-.toast { position: fixed; top: 16px; left: 50%; transform: translateX(-50%) translateY(-90px); background: var(--green); color: #000; padding: 11px 22px; border-radius: 24px; font-weight: 800; font-size: 13px; z-index: 999; transition: transform 0.28s cubic-bezier(.32,1.2,.65,1); pointer-events: none; white-space: nowrap; max-width: 90vw; }
+
+/* TOAST */
+.toast {
+  position: fixed;
+  top: 16px; left: 50%;
+  transform: translateX(-50%) translateY(-90px);
+  background: var(--green);
+  color: #000;
+  padding: 11px 22px;
+  border-radius: 24px;
+  font-weight: 800;
+  font-size: 13px;
+  z-index: 999;
+  transition: transform 0.28s cubic-bezier(.32,1.2,.65,1);
+  pointer-events: none;
+  white-space: nowrap;
+  max-width: 90vw;
+}
 .toast.show { transform: translateX(-50%) translateY(0); }
 .toast.error { background: var(--red); color: #fff; }
+
+/* BUY CONFIRM */
 .buy-confirm { padding: 20px 16px 30px; text-align: center; }
 .buy-confirm .skin-name { font-size: 18px; font-weight: 800; margin-bottom: 6px; }
 .buy-confirm .price-big { font-size: 36px; font-weight: 900; color: var(--accent); margin-bottom: 16px; }
-.buy-confirm .info-row { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-bottom: 20px; }
-.confirm-btn { width: 100%; padding: 16px; background: var(--green); color: #000; font-weight: 800; font-size: 16px; border: none; border-radius: 14px; cursor: pointer; margin-bottom: 10px; }
-.cancel-btn { width: 100%; padding: 14px; background: transparent; color: var(--sub); font-weight: 600; font-size: 14px; border: 1px solid var(--border); border-radius: 14px; cursor: pointer; }
+.buy-confirm .info-row {
+  display: flex; gap: 8px; justify-content: center;
+  flex-wrap: wrap; margin-bottom: 20px;
+}
+.confirm-btn {
+  width: 100%;
+  padding: 16px;
+  background: var(--green);
+  color: #000;
+  font-weight: 800;
+  font-size: 16px;
+  border: none;
+  border-radius: 14px;
+  cursor: pointer;
+  margin-bottom: 10px;
+}
+.cancel-btn {
+  width: 100%;
+  padding: 14px;
+  background: transparent;
+  color: var(--sub);
+  font-weight: 600;
+  font-size: 14px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  cursor: pointer;
+}
 </style>
 </head>
 <body>
 
+<!-- MARKET PAGE -->
 <div id="pg-market" class="page active">
   <div class="header">
     <div class="logo">SKIN <span>BAZAR</span></div>
@@ -161,6 +528,7 @@ html, body {
   <div class="feed" id="feed"></div>
 </div>
 
+<!-- PROFILE PAGE -->
 <div id="pg-profile" class="page">
   <div class="profile-top">
     <div class="p-avatar" id="pAvatar">?</div>
@@ -170,111 +538,180 @@ html, body {
   <div class="menu-list">
     <div class="menu-section">Hisob</div>
     <div class="menu-item" onclick="openTradeModal()">
-      <div class="m-icon" style="background:rgba(240,185,11,.12)">&#128279;</div>
-      <div class="m-text"><div class="m-label">Trade Link</div><div class="m-value" id="tradeLinkVal">O'rnatilmagan</div></div>
-      <div class="m-arrow">&rsaquo;</div>
+      <div class="m-icon" style="background:rgba(240,185,11,.12)">🔗</div>
+      <div class="m-text">
+        <div class="m-label">Trade Link</div>
+        <div class="m-value" id="tradeLinkVal">O'rnatilmagan</div>
+      </div>
+      <div class="m-arrow">›</div>
     </div>
     <div class="menu-item" onclick="openSteam()">
-      <div class="m-icon" style="background:rgba(79,195,247,.12)">&#127918;</div>
-      <div class="m-text"><div class="m-label">Steam bilan ulash</div><div class="m-value" id="steamVal">Ulanmagan</div></div>
-      <div class="m-arrow">&rsaquo;</div>
+      <div class="m-icon" style="background:rgba(79,195,247,.12)">🎮</div>
+      <div class="m-text">
+        <div class="m-label">Steam bilan ulash</div>
+        <div class="m-value" id="steamVal">Ulanmagan</div>
+      </div>
+      <div class="m-arrow">›</div>
     </div>
     <div class="menu-item" onclick="showMyItems()">
-      <div class="m-icon" style="background:rgba(0,230,118,.12)">&#127890;</div>
-      <div class="m-text"><div class="m-label">Mening lotlarim</div><div class="m-value" id="myItemsVal">Yuklanmoqda...</div></div>
-      <div class="m-arrow">&rsaquo;</div>
+      <div class="m-icon" style="background:rgba(0,230,118,.12)">🎒</div>
+      <div class="m-text">
+        <div class="m-label">Mening lotlarim</div>
+        <div class="m-value" id="myItemsVal">Yuklanmoqda...</div>
+      </div>
+      <div class="m-arrow">›</div>
     </div>
     <div class="menu-section">Sozlamalar</div>
     <div class="menu-item" onclick="toggleNotif()">
-      <div class="m-icon" style="background:rgba(255,71,87,.12)">&#128276;</div>
-      <div class="m-text"><div class="m-label">Bildirishnomalar</div><div class="m-value" id="notifVal">Yoqilgan</div></div>
-      <div class="m-arrow">&rsaquo;</div>
+      <div class="m-icon" style="background:rgba(255,71,87,.12)">🔔</div>
+      <div class="m-text">
+        <div class="m-label">Bildirishnomalar</div>
+        <div class="m-value" id="notifVal">Yoqilgan</div>
+      </div>
+      <div class="m-arrow">›</div>
     </div>
     <div class="menu-item" onclick="openLang()">
-      <div class="m-icon" style="background:rgba(144,144,170,.15)">&#127760;</div>
-      <div class="m-text"><div class="m-label">Til</div><div class="m-value" id="langVal">O'zbek</div></div>
-      <div class="m-arrow">&rsaquo;</div>
+      <div class="m-icon" style="background:rgba(144,144,170,.15)">🌐</div>
+      <div class="m-text">
+        <div class="m-label">Til</div>
+        <div class="m-value" id="langVal">O'zbek</div>
+      </div>
+      <div class="m-arrow">›</div>
     </div>
     <div class="menu-section">Yordam</div>
     <div class="menu-item" onclick="openSupport()">
-      <div class="m-icon" style="background:rgba(79,195,247,.12)">&#128172;</div>
-      <div class="m-text"><div class="m-label">Qo'llab-quvvatlash</div><div class="m-value">@skinbazar_support</div></div>
-      <div class="m-arrow">&rsaquo;</div>
+      <div class="m-icon" style="background:rgba(79,195,247,.12)">💬</div>
+      <div class="m-text">
+        <div class="m-label">Qo'llab-quvvatlash</div>
+        <div class="m-value">@skinbazar_support</div>
+      </div>
+      <div class="m-arrow">›</div>
     </div>
   </div>
 </div>
 
+<!-- TAB BAR -->
 <nav class="tab-bar">
   <button class="tab-btn active" id="tb-market" onclick="goTab('market')">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/>
+    </svg>
     Bozor
   </button>
   <button class="tab-btn" id="tb-profile" onclick="goTab('profile')">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/>
+    </svg>
     Profil
   </button>
 </nav>
 
+<!-- FAB -->
 <button class="fab" onclick="openSellModal()" id="fabBtn">+</button>
 
+<!-- SELL MODAL -->
 <div class="overlay" id="sellOverlay">
   <div class="modal">
     <div class="modal-drag"></div>
-    <button class="modal-close" onclick="closeModal('sellOverlay')">&#10005;</button>
+    <button class="modal-close" onclick="closeModal('sellOverlay')">✕</button>
     <div class="modal-scroll">
-      <div class="modal-title">&#128230; Lot qo'yish</div>
-      <div class="field"><label>Skin rasmi *</label>
+      <div class="modal-title">📦 Lot qo'yish</div>
+      <div class="field">
+        <label>Skin rasmi *</label>
         <div class="img-drop" id="imgDrop" onclick="document.getElementById('imgInput').click()">
-          <div class="drop-hint" id="dropHint"><div class="big">&#128248;</div>Rasmni tanlash uchun bosing</div>
+          <div class="drop-hint" id="dropHint">
+            <div class="big">📸</div>
+            Rasmni tanlash uchun bosing
+          </div>
         </div>
         <input type="file" id="imgInput" accept="image/*" onchange="previewImg(this)"/>
       </div>
-      <div class="field"><label>Skin nomi *</label><input type="text" id="f-name" placeholder="masalan: AK-47 | Fire Serpent"/></div>
+      <div class="field">
+        <label>Skin nomi *</label>
+        <input type="text" id="f-name" placeholder="masalan: AK-47 | Fire Serpent"/>
+      </div>
       <div class="row2">
-        <div class="field"><label>Narxi ($) *</label><input type="number" id="f-price" placeholder="0.00" step="0.01" min="0.01"/></div>
-        <div class="field"><label>Turi *</label>
-          <select id="f-type"><option value="Knife">Knife</option><option value="Glove">Glove</option><option value="Rifle" selected>Rifle</option><option value="Pistol">Pistol</option><option value="SMG">SMG</option><option value="Heavy">Heavy</option><option value="Other">Boshqa</option></select>
+        <div class="field">
+          <label>Narxi ($) *</label>
+          <input type="number" id="f-price" placeholder="0.00" step="0.01" min="0.01"/>
+        </div>
+        <div class="field">
+          <label>Turi *</label>
+          <select id="f-type">
+            <option value="Knife">Knife 🔪</option>
+            <option value="Glove">Glove 🧤</option>
+            <option value="Rifle" selected>Rifle 🔫</option>
+            <option value="Pistol">Pistol 🔫</option>
+            <option value="SMG">SMG</option>
+            <option value="Heavy">Heavy</option>
+            <option value="Other">Boshqa</option>
+          </select>
         </div>
       </div>
       <div class="row2">
-        <div class="field"><label>Holati *</label>
-          <select id="f-ext"><option value="Factory New">Factory New</option><option value="Minimal Wear">Minimal Wear</option><option value="Field-Tested" selected>Field-Tested</option><option value="Well-Worn">Well-Worn</option><option value="Battle-Scarred">Battle-Scarred</option></select>
+        <div class="field">
+          <label>Holati *</label>
+          <select id="f-ext">
+            <option value="Factory New">Factory New</option>
+            <option value="Minimal Wear">Minimal Wear</option>
+            <option value="Field-Tested" selected>Field-Tested</option>
+            <option value="Well-Worn">Well-Worn</option>
+            <option value="Battle-Scarred">Battle-Scarred</option>
+          </select>
         </div>
-        <div class="field"><label>Float</label><input type="number" id="f-float" placeholder="0.0000" step="0.0001" min="0" max="1"/></div>
+        <div class="field">
+          <label>Float</label>
+          <input type="number" id="f-float" placeholder="0.0000" step="0.0001" min="0" max="1"/>
+        </div>
       </div>
-      <div class="field"><label>Pattern (ixtiyoriy)</label><input type="number" id="f-pattern" placeholder="masalan: 412"/></div>
-      <div class="field"><label>Tavsif (ixtiyoriy)</label><textarea id="f-desc" rows="2" placeholder="Qo'shimcha ma'lumot..."></textarea></div>
-      <button class="submit-btn" id="sellBtn" onclick="submitSkin()">&#128640; Lotni e'lon qilish</button>
+      <div class="field">
+        <label>Pattern (ixtiyoriy)</label>
+        <input type="number" id="f-pattern" placeholder="masalan: 412"/>
+      </div>
+      <div class="field">
+        <label>Tavsif (ixtiyoriy)</label>
+        <textarea id="f-desc" rows="2" placeholder="Qo'shimcha ma'lumot..."></textarea>
+      </div>
+      <button class="submit-btn" id="sellBtn" onclick="submitSkin()">
+        🚀 Lotni e'lon qilish
+      </button>
     </div>
   </div>
 </div>
 
+<!-- BUY CONFIRM MODAL -->
 <div class="overlay" id="buyOverlay">
   <div class="modal">
     <div class="modal-drag"></div>
-    <button class="modal-close" onclick="closeModal('buyOverlay')">&#10005;</button>
+    <button class="modal-close" onclick="closeModal('buyOverlay')">✕</button>
     <div class="modal-scroll">
       <div class="buy-confirm">
-        <div style="font-size:48px;margin-bottom:12px" id="buyEmoji">&#128299;</div>
-        <div class="skin-name" id="buyName">&mdash;</div>
+        <div style="font-size:48px;margin-bottom:12px" id="buyEmoji">🔫</div>
+        <div class="skin-name" id="buyName">—</div>
         <div class="price-big" id="buyPrice">$0.00</div>
         <div class="info-row" id="buyInfo"></div>
-        <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px;margin-bottom:20px;font-size:13px;color:var(--sub);line-height:1.6;">&#9888;&#65039; Sotib olish so'rovi yuboriladi. Sotuvchi bilan Steam orqali trade qilinadi. Trade link sozlaganingizga ishonch hosil qiling.</div>
-        <button class="confirm-btn" id="confirmBuyBtn" onclick="confirmBuy()">&#9989; Sotib olishni tasdiqlash</button>
+        <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px;margin-bottom:20px;font-size:13px;color:var(--sub);line-height:1.6;">
+          ⚠️ Sotib olish so'rovi yuboriladi. Sotuvchi bilan Steam orqali trade qilinadi. Trade link sozlaganingizga ishonch hosil qiling.
+        </div>
+        <button class="confirm-btn" id="confirmBuyBtn" onclick="confirmBuy()">✅ Sotib olishni tasdiqlash</button>
         <button class="cancel-btn" onclick="closeModal('buyOverlay')">Bekor qilish</button>
       </div>
     </div>
   </div>
 </div>
 
+<!-- TRADE LINK MODAL -->
 <div class="overlay" id="tradeOverlay">
   <div class="modal">
     <div class="modal-drag"></div>
-    <button class="modal-close" onclick="closeModal('tradeOverlay')">&#10005;</button>
+    <button class="modal-close" onclick="closeModal('tradeOverlay')">✕</button>
     <div class="modal-scroll">
-      <div class="modal-title">&#128279; Trade Link</div>
-      <div class="field"><label>Steam Trade URL</label><input type="url" id="tradeLinkInput" placeholder="https://steamcommunity.com/tradeoffer/new/?partner="/></div>
-      <button class="submit-btn" onclick="saveTradeLink()">&#128190; Saqlash</button>
+      <div class="modal-title">🔗 Trade Link</div>
+      <div class="field">
+        <label>Steam Trade URL</label>
+        <input type="url" id="tradeLinkInput" placeholder="https://steamcommunity.com/tradeoffer/new/?partner=..."/>
+      </div>
+      <button class="submit-btn" onclick="saveTradeLink()">💾 Saqlash</button>
     </div>
   </div>
 </div>
@@ -285,14 +722,17 @@ html, body {
 const API = window.location.origin;
 let tg, user = null, pendingBuy = null;
 
+// === TELEGRAM INIT ===
 try {
   tg = window.Telegram.WebApp;
   tg.ready();
   tg.expand();
+  tg.disableClosingConfirmation && tg.disableClosingConfirmation();
   if (tg.setHeaderColor) tg.setHeaderColor('#0d0d12');
   if (tg.setBackgroundColor) tg.setBackgroundColor('#0d0d12');
 } catch(e) { tg = null; }
 
+// === HELPERS ===
 let toastTimer;
 function toast(msg, type='ok') {
   const el = document.getElementById('toast');
@@ -301,16 +741,24 @@ function toast(msg, type='ok') {
   clearTimeout(toastTimer);
   toastTimer = setTimeout(() => el.classList.remove('show'), 2800);
 }
-function extShort(e) { return {'Factory New':'FN','Minimal Wear':'MW','Field-Tested':'FT','Well-Worn':'WW','Battle-Scarred':'BS'}[e] || e; }
-function typeEmoji(t) { return {Knife:'&#128298;',Glove:'&#129508;',Rifle:'&#128299;',Pistol:'&#128299;',SMG:'&#9889;',Heavy:'&#128163;',Other:'&#128230;'}[t] || '&#128230;'; }
+
+function extShort(e) {
+  return {'Factory New':'FN','Minimal Wear':'MW','Field-Tested':'FT','Well-Worn':'WW','Battle-Scarred':'BS'}[e] || e;
+}
+function typeEmoji(t) {
+  return {Knife:'🔪',Glove:'🧤',Rifle:'🔫',Pistol:'🔫',SMG:'⚡',Heavy:'💣',Other:'📦'}[t] || '📦';
+}
 function fmtPrice(p) { return '$' + parseFloat(p).toFixed(2); }
+
 function openModal(id) { document.getElementById(id).classList.add('open'); }
 function closeModal(id) { document.getElementById(id).classList.remove('open'); }
 
+// close on backdrop
 document.querySelectorAll('.overlay').forEach(el => {
   el.addEventListener('click', e => { if (e.target === el) el.classList.remove('open'); });
 });
 
+// === TAB ===
 function goTab(tab) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
@@ -319,6 +767,7 @@ function goTab(tab) {
   if (tab === 'profile') renderProfile();
 }
 
+// === AUTH ===
 async function authUser() {
   let d = { telegram_id: 999999, first_name: 'Demo', username: 'demo', photo_url: null };
   try {
@@ -335,6 +784,7 @@ async function authUser() {
   } catch(e) { user = { telegram_id: 999999, first_name: 'Demo', username: 'demo', notifications: true }; }
 }
 
+// === PROFILE ===
 function renderProfile() {
   if (!user) return;
   const name = [user.first_name, user.last_name].filter(Boolean).join(' ');
@@ -346,7 +796,7 @@ function renderProfile() {
   } else {
     av.textContent = (name[0] || 'U').toUpperCase();
   }
-  document.getElementById('tradeLinkVal').textContent = user.trade_link ? 'O\'rnatilgan' : 'O\'rnatilmagan';
+  document.getElementById('tradeLinkVal').textContent = user.trade_link ? '✅ O\'rnatilgan' : 'O\'rnatilmagan';
   document.getElementById('notifVal').textContent = user.notifications !== false ? 'Yoqilgan' : 'O\'chirilgan';
   loadMyItems();
 }
@@ -356,12 +806,23 @@ async function loadMyItems() {
   try {
     const r = await fetch(API + '/api/skins?seller_id=' + user.telegram_id);
     const skins = await r.json();
-    document.getElementById('myItemsVal').textContent = skins.filter(s => !s.is_sold).length + ' ta faol lot';
-  } catch(e) { document.getElementById('myItemsVal').textContent = 'Ko\'rib bo\'lmadi'; }
+    const active = skins.filter(s => !s.is_sold);
+    document.getElementById('myItemsVal').textContent = active.length + ' ta faol lot';
+  } catch(e) {
+    document.getElementById('myItemsVal').textContent = 'Ko\'rib bo\'lmadi';
+  }
 }
 
+// === MARKET ===
 function skeletonHtml() {
-  return '<div class="skeleton-card"><div class="skel-img shimmer"><\/div><div class="skel-body"><div class="skel-line shimmer" style="width:40%"><\/div><div class="skel-line shimmer" style="width:75%"><\/div><div class="skel-line shimmer" style="width:90%;height:42px;border-radius:10px"><\/div><\/div><\/div>';
+  return `<div class="skeleton-card">
+    <div class="skel-img shimmer"></div>
+    <div class="skel-body">
+      <div class="skel-line shimmer" style="width:40%"></div>
+      <div class="skel-line shimmer" style="width:75%"></div>
+      <div class="skel-line shimmer" style="width:90%;height:42px;border-radius:10px"></div>
+    </div>
+  </div>`;
 }
 
 async function loadSkins() {
@@ -373,12 +834,22 @@ async function loadSkins() {
     const skins = await r.json();
     document.getElementById('listingBadge').textContent = skins.length + ' ta lot';
     if (!skins.length) {
-      feed.innerHTML = '<div class="state-box"><div class="icon">&#128218;<\/div><div class="title">Bozor bo\'sh<\/div><div class="desc">Hali hech kim lot qo\'ymagan.<br>Birinchi bo\'lib qo\'ying!<\/div><\/div>';
+      feed.innerHTML = `<div class="state-box">
+        <div class="icon">🛒</div>
+        <div class="title">Bozor bo'sh</div>
+        <div class="desc">Hali hech kim lot qo'ymagan.<br>Birinchi bo'lib qo'ying!</div>
+      </div>`;
       return;
     }
     feed.innerHTML = skins.map(s => cardHtml(s)).join('');
   } catch(e) {
-    feed.innerHTML = '<div class="state-box"><div class="icon">&#9888;&#65039;<\/div><div class="title">Yuklashda xato<\/div><div class="desc">Internet aloqasini tekshiring.<br><br><button onclick="loadSkins()" style="background:var(--accent);color:#000;border:none;padding:10px 24px;border-radius:10px;font-weight:700;font-size:14px;cursor:pointer">Qayta urinish<\/button><\/div><\/div>';
+    feed.innerHTML = `<div class="state-box">
+      <div class="icon">⚠️</div>
+      <div class="title">Yuklashda xato</div>
+      <div class="desc">Internet aloqasini tekshiring.<br><br>
+        <button onclick="loadSkins()" style="background:var(--accent);color:#000;border:none;padding:10px 24px;border-radius:10px;font-weight:700;font-size:14px;cursor:pointer">Qayta urinish</button>
+      </div>
+    </div>`;
   }
 }
 
@@ -387,36 +858,51 @@ function cardHtml(s) {
   const tClass = 't-' + (s.skin_type || 'Other');
   const imgSrc = s.image_url ? (s.image_url.startsWith('/') ? API + s.image_url : s.image_url) : '';
   const emoji = typeEmoji(s.skin_type);
-  const jsonStr = JSON.stringify(s).replace(/"/g, '&quot;');
-  return '<div class="skin-card"><div class="card-img">' +
-    (imgSrc ? '<img src="'+imgSrc+'" alt="'+s.name+'" loading="lazy" onerror="this.style.display=\'none\';this.nextSibling.style.display=\'block\'"/><div class="no-img" style="display:none">'+emoji+'<\/div>' : '<div class="no-img">'+emoji+'<\/div>') +
-    '<div class="type-badge '+tClass+'">'+s.skin_type+'<\/div><div class="ext-badge">'+extShort(s.exterior)+'<\/div><\/div>' +
-    '<div class="card-body"><div class="card-price">'+fmtPrice(s.price)+'<\/div><div class="card-name">'+s.name+'<\/div>' +
-    '<div class="card-meta"><div class="chip"><b>Holat:<\/b> '+s.exterior+'<\/div>' +
-    (s.float_value != null ? '<div class="chip"><b>Float:<\/b> '+parseFloat(s.float_value).toFixed(4)+'<\/div>' : '') +
-    (s.pattern != null ? '<div class="chip"><b>Pattern:<\/b> #'+s.pattern+'<\/div>' : '') +
-    '<\/div>' +
-    (isOwn
-      ? '<button class="buy-btn" style="background:var(--card2);color:var(--sub);border:1px solid var(--border)" disabled>&#128204; Sizning lotingiz<\/button>'
-      : '<button class="buy-btn" onclick="openBuyModal('+jsonStr+')">&#128722; Sotib olish<\/button>') +
-    '<\/div><\/div>';
+
+  return `<div class="skin-card">
+    <div class="card-img">
+      ${imgSrc
+        ? `<img src="${imgSrc}" alt="${s.name}" loading="lazy" onerror="this.style.display='none';this.nextSibling.style.display='block'"/>
+           <div class="no-img" style="display:none">${emoji}</div>`
+        : `<div class="no-img">${emoji}</div>`}
+      <div class="type-badge ${tClass}">${s.skin_type}</div>
+      <div class="ext-badge">${extShort(s.exterior)}</div>
+    </div>
+    <div class="card-body">
+      <div class="card-price">${fmtPrice(s.price)}</div>
+      <div class="card-name">${s.name}</div>
+      <div class="card-meta">
+        <div class="chip"><b>Holat:</b> ${s.exterior}</div>
+        ${s.float_value != null ? `<div class="chip"><b>Float:</b> ${parseFloat(s.float_value).toFixed(4)}</div>` : ''}
+        ${s.pattern != null ? `<div class="chip"><b>Pattern:</b> #${s.pattern}</div>` : ''}
+      </div>
+      ${isOwn
+        ? `<button class="buy-btn" style="background:var(--card2);color:var(--sub);border:1px solid var(--border)" disabled>
+             📌 Sizning lotingiz
+           </button>`
+        : `<button class="buy-btn" onclick="openBuyModal(${JSON.stringify(s).replace(/"/g,'&quot;')})">
+             🛒 Sotib olish
+           </button>`}
+    </div>
+  </div>`;
 }
 
+// === BUY ===
 function openBuyModal(skin) {
   if (!user) { toast('Iltimos kuting...', 'error'); return; }
   if (!user.trade_link) {
-    toast('Avval trade link o\'rnating!', 'error');
+    toast('⚠️ Avval trade link o\'rnating!', 'error');
     setTimeout(() => openTradeModal(), 600);
     return;
   }
   pendingBuy = skin;
-  document.getElementById('buyEmoji').innerHTML = typeEmoji(skin.skin_type);
+  document.getElementById('buyEmoji').textContent = typeEmoji(skin.skin_type);
   document.getElementById('buyName').textContent = skin.name;
   document.getElementById('buyPrice').textContent = fmtPrice(skin.price);
   document.getElementById('buyInfo').innerHTML =
-    '<div class="chip">' + skin.exterior + '<\/div>' +
-    (skin.float_value != null ? '<div class="chip">Float: ' + parseFloat(skin.float_value).toFixed(4) + '<\/div>' : '') +
-    (skin.pattern != null ? '<div class="chip">Pattern: #' + skin.pattern + '<\/div>' : '');
+    `<div class="chip">${skin.exterior}</div>
+     ${skin.float_value != null ? `<div class="chip">Float: ${parseFloat(skin.float_value).toFixed(4)}</div>` : ''}
+     ${skin.pattern != null ? `<div class="chip">Pattern: #${skin.pattern}</div>` : ''}`;
   openModal('buyOverlay');
 }
 
@@ -424,24 +910,25 @@ async function confirmBuy() {
   if (!pendingBuy || !user) return;
   const btn = document.getElementById('confirmBuyBtn');
   btn.disabled = true;
-  btn.textContent = 'Yuborilmoqda...';
+  btn.textContent = '⏳ Yuborilmoqda...';
   try {
     const fd = new FormData();
     fd.append('buyer_id', user.telegram_id);
     const r = await fetch(API + '/api/skins/' + pendingBuy.id + '/buy', { method:'POST', body: fd });
     if (!r.ok) { const e = await r.json(); throw new Error(e.detail || 'Xato'); }
     closeModal('buyOverlay');
-    toast('So\'rov yuborildi! Sotuvchi siz bilan bog\'lanadi.');
-    pendingBuy = null;
+    toast('✅ So\'rov yuborildi! Sotuvchi siz bilan bog\'lanadi.');
     setTimeout(loadSkins, 800);
   } catch(e) {
-    toast(e.message || 'Xato yuz berdi', 'error');
+    toast('❌ ' + (e.message || 'Xato yuz berdi'), 'error');
   } finally {
     btn.disabled = false;
-    btn.innerHTML = '&#9989; Sotib olishni tasdiqlash';
+    btn.textContent = '✅ Sotib olishni tasdiqlash';
+    pendingBuy = null;
   }
 }
 
+// === SELL ===
 function openSellModal() {
   if (!user) { toast('Iltimos kuting...', 'error'); return; }
   openModal('sellOverlay');
@@ -453,7 +940,7 @@ function previewImg(input) {
   const reader = new FileReader();
   reader.onload = e => {
     const drop = document.getElementById('imgDrop');
-    drop.innerHTML = '<img src="' + e.target.result + '"\/>';
+    drop.innerHTML = '<img src="' + e.target.result + '"/>';
     drop.classList.add('has-img');
   };
   reader.readAsDataURL(file);
@@ -463,82 +950,105 @@ async function submitSkin() {
   const name = document.getElementById('f-name').value.trim();
   const price = document.getElementById('f-price').value;
   const img = document.getElementById('imgInput').files[0];
-  if (!name) { toast('Skin nomini kiriting', 'error'); return; }
-  if (!price || parseFloat(price) <= 0) { toast('Narxni kiriting', 'error'); return; }
-  if (!img) { toast('Rasmni tanlang', 'error'); return; }
+  const ext = document.getElementById('f-ext').value;
+  const type = document.getElementById('f-type').value;
+  const fv = document.getElementById('f-float').value;
+  const pat = document.getElementById('f-pattern').value;
+  const desc = document.getElementById('f-desc').value.trim();
+
+  if (!name) { toast('⚠️ Skin nomini kiriting', 'error'); return; }
+  if (!price || parseFloat(price) <= 0) { toast('⚠️ Narxni kiriting', 'error'); return; }
+  if (!img) { toast('⚠️ Rasmni tanlang', 'error'); return; }
+
   const btn = document.getElementById('sellBtn');
   btn.disabled = true;
-  btn.textContent = 'Yuborilmoqda...';
+  btn.innerHTML = '⏳ Yuborilmoqda...';
+
   const fd = new FormData();
   fd.append('seller_id', user.telegram_id);
   fd.append('name', name);
   fd.append('price', price);
-  fd.append('exterior', document.getElementById('f-ext').value);
-  fd.append('skin_type', document.getElementById('f-type').value);
+  fd.append('exterior', ext);
+  fd.append('skin_type', type);
   fd.append('image', img);
-  const fv = document.getElementById('f-float').value;
   if (fv) fd.append('float_value', fv);
-  const pat = document.getElementById('f-pattern').value;
   if (pat) fd.append('pattern', pat);
-  const desc = document.getElementById('f-desc').value.trim();
   if (desc) fd.append('description', desc);
+
   try {
     const r = await fetch(API + '/api/skins', { method:'POST', body: fd });
     if (!r.ok) { const e = await r.json(); throw new Error(e.detail || 'Server xatosi'); }
     closeModal('sellOverlay');
-    toast('Lot muvaffaqiyatli e\'lon qilindi!');
-    ['f-name','f-price','f-float','f-pattern','f-desc'].forEach(id => document.getElementById(id).value = '');
+    toast('🎉 Lot muvaffaqiyatli e\'lon qilindi!');
+    // Reset form
+    document.getElementById('f-name').value = '';
+    document.getElementById('f-price').value = '';
+    document.getElementById('f-float').value = '';
+    document.getElementById('f-pattern').value = '';
+    document.getElementById('f-desc').value = '';
     document.getElementById('imgInput').value = '';
     const drop = document.getElementById('imgDrop');
-    drop.innerHTML = '<div class="drop-hint"><div class="big">&#128248;<\/div>Rasmni tanlash uchun bosing<\/div>';
+    drop.innerHTML = '<div class="drop-hint"><div class="big">📸</div>Rasmni tanlash uchun bosing</div>';
     drop.classList.remove('has-img');
     setTimeout(loadSkins, 500);
   } catch(e) {
-    toast(e.message || 'Yuklashda xato', 'error');
+    toast('❌ ' + (e.message || 'Yuklashda xato'), 'error');
   } finally {
     btn.disabled = false;
-    btn.innerHTML = '&#128640; Lotni e\'lon qilish';
+    btn.innerHTML = '🚀 Lotni e\'lon qilish';
   }
 }
 
+// === TRADE LINK ===
 function openTradeModal() {
-  document.getElementById('tradeLinkInput').value = user && user.trade_link ? user.trade_link : '';
+  document.getElementById('tradeLinkInput').value = user?.trade_link || '';
   openModal('tradeOverlay');
 }
-
 async function saveTradeLink() {
   const val = document.getElementById('tradeLinkInput').value.trim();
-  if (!val) { toast('Trade link kiriting', 'error'); return; }
+  if (!val.includes('steamcommunity.com/tradeoffer')) {
+    toast('⚠️ To\'g\'ri Steam trade link kiriting', 'error'); return;
+  }
   try {
     const fd = new FormData();
     fd.append('trade_link', val);
     const r = await fetch(API + '/api/users/' + user.telegram_id, { method:'PATCH', body: fd });
     user = await r.json();
     closeModal('tradeOverlay');
-    toast('Trade link saqlandi!');
+    toast('✅ Trade link saqlandi!');
     renderProfile();
-  } catch(e) { toast('Saqlashda xato', 'error'); }
+  } catch(e) { toast('❌ Saqlashda xato', 'error'); }
 }
 
+// === MISC ===
 function toggleNotif() {
   if (!user) return;
   const fd = new FormData();
   fd.append('notifications', String(!user.notifications));
   fetch(API + '/api/users/' + user.telegram_id, { method:'PATCH', body: fd })
-    .then(r => r.json()).then(u => { user = u; renderProfile(); toast(u.notifications ? 'Bildirishnomalar yoqildi' : 'O\'chirildi'); });
+    .then(r => r.json()).then(u => {
+      user = u;
+      toast(u.notifications ? '🔔 Bildirishnomalar yoqildi' : '🔕 O\'chirildi');
+      renderProfile();
+    });
 }
-function openLang() { toast('Ko\'p til tez orada!'); }
-function openSteam() { toast('Steam integratsiya tez orada!'); }
-function showMyItems() { goTab('market'); toast('Sizning lotlaringiz bozorda ko\'rinadi'); }
+function openLang() { toast('🌐 Ko\'p til tez orada!'); }
+function openSteam() { toast('🎮 Steam integratsiya tez orada!'); }
+function showMyItems() {
+  closeModal('tradeOverlay');
+  goTab('market');
+  toast('📦 Sizning lotlaringiz bozorda ko\'rinadi');
+}
 function openSupport() {
   try { tg.openTelegramLink('https://t.me/skinbazar_support'); }
-  catch(e) { toast('@skinbazar_support'); }
+  catch(e) { toast('💬 @skinbazar_support'); }
 }
 
+// === INIT ===
 (async () => {
   await authUser();
   await loadSkins();
 })();
-<\/script>
-<\/body>
-<\/html>
+</script>
+</body>
+</html>
