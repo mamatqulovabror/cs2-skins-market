@@ -25,7 +25,7 @@
   --pistol: #81c784;
   --smg: #ff8a65;
   --heavy: #90a4ae;
-  --tab-h: 62px;
+  --tab-h: 72px;
 }
 * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
 html, body {
@@ -277,13 +277,13 @@ html, body {
   border: none;
   background: none;
   color: var(--sub);
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 0.3px;
-  padding-bottom: 2px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+  padding-bottom: 4px;
   transition: color 0.18s;
 }
-.tab-btn svg { width: 24px; height: 24px; }
+.tab-btn svg { width: 26px; height: 26px; }
 .tab-btn.active { color: var(--accent); }
 .tab-btn.active svg { filter: drop-shadow(0 0 5px rgba(240,185,11,0.5)); }
 
@@ -538,54 +538,54 @@ html, body {
   <div class="menu-list">
     <div class="menu-section">Hisob</div>
     <div class="menu-item" onclick="openTradeModal()">
-      <div class="m-icon" style="background:rgba(240,185,11,.12)">🔗</div>
+      <div class="m-icon" style="background:rgba(240,185,11,.12)">ð</div>
       <div class="m-text">
         <div class="m-label">Trade Link</div>
         <div class="m-value" id="tradeLinkVal">O'rnatilmagan</div>
       </div>
-      <div class="m-arrow">›</div>
+      <div class="m-arrow">âº</div>
     </div>
     <div class="menu-item" onclick="openSteam()">
-      <div class="m-icon" style="background:rgba(79,195,247,.12)">🎮</div>
+      <div class="m-icon" style="background:rgba(79,195,247,.12)">ð®</div>
       <div class="m-text">
         <div class="m-label">Steam bilan ulash</div>
         <div class="m-value" id="steamVal">Ulanmagan</div>
       </div>
-      <div class="m-arrow">›</div>
+      <div class="m-arrow">âº</div>
     </div>
     <div class="menu-item" onclick="showMyItems()">
-      <div class="m-icon" style="background:rgba(0,230,118,.12)">🎒</div>
+      <div class="m-icon" style="background:rgba(0,230,118,.12)">ð</div>
       <div class="m-text">
         <div class="m-label">Mening lotlarim</div>
         <div class="m-value" id="myItemsVal">Yuklanmoqda...</div>
       </div>
-      <div class="m-arrow">›</div>
+      <div class="m-arrow">âº</div>
     </div>
     <div class="menu-section">Sozlamalar</div>
     <div class="menu-item" onclick="toggleNotif()">
-      <div class="m-icon" style="background:rgba(255,71,87,.12)">🔔</div>
+      <div class="m-icon" style="background:rgba(255,71,87,.12)">ð</div>
       <div class="m-text">
         <div class="m-label">Bildirishnomalar</div>
         <div class="m-value" id="notifVal">Yoqilgan</div>
       </div>
-      <div class="m-arrow">›</div>
+      <div class="m-arrow">âº</div>
     </div>
     <div class="menu-item" onclick="openLang()">
-      <div class="m-icon" style="background:rgba(144,144,170,.15)">🌐</div>
+      <div class="m-icon" style="background:rgba(144,144,170,.15)">ð</div>
       <div class="m-text">
         <div class="m-label">Til</div>
         <div class="m-value" id="langVal">O'zbek</div>
       </div>
-      <div class="m-arrow">›</div>
+      <div class="m-arrow">âº</div>
     </div>
     <div class="menu-section">Yordam</div>
     <div class="menu-item" onclick="openSupport()">
-      <div class="m-icon" style="background:rgba(79,195,247,.12)">💬</div>
+      <div class="m-icon" style="background:rgba(79,195,247,.12)">ð¬</div>
       <div class="m-text">
         <div class="m-label">Qo'llab-quvvatlash</div>
         <div class="m-value">@skinbazar_support</div>
       </div>
-      <div class="m-arrow">›</div>
+      <div class="m-arrow">âº</div>
     </div>
   </div>
 </div>
@@ -613,14 +613,14 @@ html, body {
 <div class="overlay" id="sellOverlay">
   <div class="modal">
     <div class="modal-drag"></div>
-    <button class="modal-close" onclick="closeModal('sellOverlay')">✕</button>
+    <button class="modal-close" onclick="closeModal('sellOverlay')">â</button>
     <div class="modal-scroll">
-      <div class="modal-title">📦 Lot qo'yish</div>
+      <div class="modal-title">ð¦ Lot qo'yish</div>
       <div class="field">
         <label>Skin rasmi *</label>
         <div class="img-drop" id="imgDrop" onclick="document.getElementById('imgInput').click()">
           <div class="drop-hint" id="dropHint">
-            <div class="big">📸</div>
+            <div class="big">ð¸</div>
             Rasmni tanlash uchun bosing
           </div>
         </div>
@@ -638,10 +638,10 @@ html, body {
         <div class="field">
           <label>Turi *</label>
           <select id="f-type">
-            <option value="Knife">Knife 🔪</option>
-            <option value="Glove">Glove 🧤</option>
-            <option value="Rifle" selected>Rifle 🔫</option>
-            <option value="Pistol">Pistol 🔫</option>
+            <option value="Knife">Knife ðª</option>
+            <option value="Glove">Glove ð§¤</option>
+            <option value="Rifle" selected>Rifle ð«</option>
+            <option value="Pistol">Pistol ð«</option>
             <option value="SMG">SMG</option>
             <option value="Heavy">Heavy</option>
             <option value="Other">Boshqa</option>
@@ -673,7 +673,7 @@ html, body {
         <textarea id="f-desc" rows="2" placeholder="Qo'shimcha ma'lumot..."></textarea>
       </div>
       <button class="submit-btn" id="sellBtn" onclick="submitSkin()">
-        🚀 Lotni e'lon qilish
+        ð Lotni e'lon qilish
       </button>
     </div>
   </div>
@@ -683,17 +683,17 @@ html, body {
 <div class="overlay" id="buyOverlay">
   <div class="modal">
     <div class="modal-drag"></div>
-    <button class="modal-close" onclick="closeModal('buyOverlay')">✕</button>
+    <button class="modal-close" onclick="closeModal('buyOverlay')">â</button>
     <div class="modal-scroll">
       <div class="buy-confirm">
-        <div style="font-size:48px;margin-bottom:12px" id="buyEmoji">🔫</div>
-        <div class="skin-name" id="buyName">—</div>
+        <div style="font-size:48px;margin-bottom:12px" id="buyEmoji">ð«</div>
+        <div class="skin-name" id="buyName">â</div>
         <div class="price-big" id="buyPrice">$0.00</div>
         <div class="info-row" id="buyInfo"></div>
         <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px;margin-bottom:20px;font-size:13px;color:var(--sub);line-height:1.6;">
-          ⚠️ Sotib olish so'rovi yuboriladi. Sotuvchi bilan Steam orqali trade qilinadi. Trade link sozlaganingizga ishonch hosil qiling.
+          â ï¸ Sotib olish so'rovi yuboriladi. Sotuvchi bilan Steam orqali trade qilinadi. Trade link sozlaganingizga ishonch hosil qiling.
         </div>
-        <button class="confirm-btn" id="confirmBuyBtn" onclick="confirmBuy()">✅ Sotib olishni tasdiqlash</button>
+        <button class="confirm-btn" id="confirmBuyBtn" onclick="confirmBuy()">â Sotib olishni tasdiqlash</button>
         <button class="cancel-btn" onclick="closeModal('buyOverlay')">Bekor qilish</button>
       </div>
     </div>
@@ -704,14 +704,14 @@ html, body {
 <div class="overlay" id="tradeOverlay">
   <div class="modal">
     <div class="modal-drag"></div>
-    <button class="modal-close" onclick="closeModal('tradeOverlay')">✕</button>
+    <button class="modal-close" onclick="closeModal('tradeOverlay')">â</button>
     <div class="modal-scroll">
-      <div class="modal-title">🔗 Trade Link</div>
+      <div class="modal-title">ð Trade Link</div>
       <div class="field">
         <label>Steam Trade URL</label>
         <input type="url" id="tradeLinkInput" placeholder="https://steamcommunity.com/tradeoffer/new/?partner=..."/>
       </div>
-      <button class="submit-btn" onclick="saveTradeLink()">💾 Saqlash</button>
+      <button class="submit-btn" onclick="saveTradeLink()">ð¾ Saqlash</button>
     </div>
   </div>
 </div>
@@ -746,7 +746,7 @@ function extShort(e) {
   return {'Factory New':'FN','Minimal Wear':'MW','Field-Tested':'FT','Well-Worn':'WW','Battle-Scarred':'BS'}[e] || e;
 }
 function typeEmoji(t) {
-  return {Knife:'🔪',Glove:'🧤',Rifle:'🔫',Pistol:'🔫',SMG:'⚡',Heavy:'💣',Other:'📦'}[t] || '📦';
+  return {Knife:'ðª',Glove:'ð§¤',Rifle:'ð«',Pistol:'ð«',SMG:'â¡',Heavy:'ð£',Other:'ð¦'}[t] || 'ð¦';
 }
 function fmtPrice(p) { return '$' + parseFloat(p).toFixed(2); }
 
@@ -796,7 +796,7 @@ function renderProfile() {
   } else {
     av.textContent = (name[0] || 'U').toUpperCase();
   }
-  document.getElementById('tradeLinkVal').textContent = user.trade_link ? '✅ O\'rnatilgan' : 'O\'rnatilmagan';
+  document.getElementById('tradeLinkVal').textContent = user.trade_link ? 'â O\'rnatilgan' : 'O\'rnatilmagan';
   document.getElementById('notifVal').textContent = user.notifications !== false ? 'Yoqilgan' : 'O\'chirilgan';
   loadMyItems();
 }
@@ -835,7 +835,7 @@ async function loadSkins() {
     document.getElementById('listingBadge').textContent = skins.length + ' ta lot';
     if (!skins.length) {
       feed.innerHTML = `<div class="state-box">
-        <div class="icon">🛒</div>
+        <div class="icon">ð</div>
         <div class="title">Bozor bo'sh</div>
         <div class="desc">Hali hech kim lot qo'ymagan.<br>Birinchi bo'lib qo'ying!</div>
       </div>`;
@@ -844,7 +844,7 @@ async function loadSkins() {
     feed.innerHTML = skins.map(s => cardHtml(s)).join('');
   } catch(e) {
     feed.innerHTML = `<div class="state-box">
-      <div class="icon">⚠️</div>
+      <div class="icon">â ï¸</div>
       <div class="title">Yuklashda xato</div>
       <div class="desc">Internet aloqasini tekshiring.<br><br>
         <button onclick="loadSkins()" style="background:var(--accent);color:#000;border:none;padding:10px 24px;border-radius:10px;font-weight:700;font-size:14px;cursor:pointer">Qayta urinish</button>
@@ -878,10 +878,10 @@ function cardHtml(s) {
       </div>
       ${isOwn
         ? `<button class="buy-btn" style="background:var(--card2);color:var(--sub);border:1px solid var(--border)" disabled>
-             📌 Sizning lotingiz
+             ð Sizning lotingiz
            </button>`
         : `<button class="buy-btn" onclick="openBuyModal(${JSON.stringify(s).replace(/"/g,'&quot;')})">
-             🛒 Sotib olish
+             ð Sotib olish
            </button>`}
     </div>
   </div>`;
@@ -891,7 +891,7 @@ function cardHtml(s) {
 function openBuyModal(skin) {
   if (!user) { toast('Iltimos kuting...', 'error'); return; }
   if (!user.trade_link) {
-    toast('⚠️ Avval trade link o\'rnating!', 'error');
+    toast('â ï¸ Avval trade link o\'rnating!', 'error');
     setTimeout(() => openTradeModal(), 600);
     return;
   }
@@ -910,20 +910,20 @@ async function confirmBuy() {
   if (!pendingBuy || !user) return;
   const btn = document.getElementById('confirmBuyBtn');
   btn.disabled = true;
-  btn.textContent = '⏳ Yuborilmoqda...';
+  btn.textContent = 'â³ Yuborilmoqda...';
   try {
     const fd = new FormData();
     fd.append('buyer_id', user.telegram_id);
     const r = await fetch(API + '/api/skins/' + pendingBuy.id + '/buy', { method:'POST', body: fd });
     if (!r.ok) { const e = await r.json(); throw new Error(e.detail || 'Xato'); }
     closeModal('buyOverlay');
-    toast('✅ So\'rov yuborildi! Sotuvchi siz bilan bog\'lanadi.');
+    toast('â So\'rov yuborildi! Sotuvchi siz bilan bog\'lanadi.');
     setTimeout(loadSkins, 800);
   } catch(e) {
-    toast('❌ ' + (e.message || 'Xato yuz berdi'), 'error');
+    toast('â ' + (e.message || 'Xato yuz berdi'), 'error');
   } finally {
     btn.disabled = false;
-    btn.textContent = '✅ Sotib olishni tasdiqlash';
+    btn.textContent = 'â Sotib olishni tasdiqlash';
     pendingBuy = null;
   }
 }
@@ -956,13 +956,13 @@ async function submitSkin() {
   const pat = document.getElementById('f-pattern').value;
   const desc = document.getElementById('f-desc').value.trim();
 
-  if (!name) { toast('⚠️ Skin nomini kiriting', 'error'); return; }
-  if (!price || parseFloat(price) <= 0) { toast('⚠️ Narxni kiriting', 'error'); return; }
-  if (!img) { toast('⚠️ Rasmni tanlang', 'error'); return; }
+  if (!name) { toast('â ï¸ Skin nomini kiriting', 'error'); return; }
+  if (!price || parseFloat(price) <= 0) { toast('â ï¸ Narxni kiriting', 'error'); return; }
+  if (!img) { toast('â ï¸ Rasmni tanlang', 'error'); return; }
 
   const btn = document.getElementById('sellBtn');
   btn.disabled = true;
-  btn.innerHTML = '⏳ Yuborilmoqda...';
+  btn.innerHTML = 'â³ Yuborilmoqda...';
 
   const fd = new FormData();
   fd.append('seller_id', user.telegram_id);
@@ -979,7 +979,7 @@ async function submitSkin() {
     const r = await fetch(API + '/api/skins', { method:'POST', body: fd });
     if (!r.ok) { const e = await r.json(); throw new Error(e.detail || 'Server xatosi'); }
     closeModal('sellOverlay');
-    toast('🎉 Lot muvaffaqiyatli e\'lon qilindi!');
+    toast('ð Lot muvaffaqiyatli e\'lon qilindi!');
     // Reset form
     document.getElementById('f-name').value = '';
     document.getElementById('f-price').value = '';
@@ -988,14 +988,14 @@ async function submitSkin() {
     document.getElementById('f-desc').value = '';
     document.getElementById('imgInput').value = '';
     const drop = document.getElementById('imgDrop');
-    drop.innerHTML = '<div class="drop-hint"><div class="big">📸</div>Rasmni tanlash uchun bosing</div>';
+    drop.innerHTML = '<div class="drop-hint"><div class="big">ð¸</div>Rasmni tanlash uchun bosing</div>';
     drop.classList.remove('has-img');
     setTimeout(loadSkins, 500);
   } catch(e) {
-    toast('❌ ' + (e.message || 'Yuklashda xato'), 'error');
+    toast('â ' + (e.message || 'Yuklashda xato'), 'error');
   } finally {
     btn.disabled = false;
-    btn.innerHTML = '🚀 Lotni e\'lon qilish';
+    btn.innerHTML = 'ð Lotni e\'lon qilish';
   }
 }
 
@@ -1007,7 +1007,7 @@ function openTradeModal() {
 async function saveTradeLink() {
   const val = document.getElementById('tradeLinkInput').value.trim();
   if (!val.includes('steamcommunity.com/tradeoffer')) {
-    toast('⚠️ To\'g\'ri Steam trade link kiriting', 'error'); return;
+    toast('â ï¸ To\'g\'ri Steam trade link kiriting', 'error'); return;
   }
   try {
     const fd = new FormData();
@@ -1015,9 +1015,9 @@ async function saveTradeLink() {
     const r = await fetch(API + '/api/users/' + user.telegram_id, { method:'PATCH', body: fd });
     user = await r.json();
     closeModal('tradeOverlay');
-    toast('✅ Trade link saqlandi!');
+    toast('â Trade link saqlandi!');
     renderProfile();
-  } catch(e) { toast('❌ Saqlashda xato', 'error'); }
+  } catch(e) { toast('â Saqlashda xato', 'error'); }
 }
 
 // === MISC ===
@@ -1028,20 +1028,20 @@ function toggleNotif() {
   fetch(API + '/api/users/' + user.telegram_id, { method:'PATCH', body: fd })
     .then(r => r.json()).then(u => {
       user = u;
-      toast(u.notifications ? '🔔 Bildirishnomalar yoqildi' : '🔕 O\'chirildi');
+      toast(u.notifications ? 'ð Bildirishnomalar yoqildi' : 'ð O\'chirildi');
       renderProfile();
     });
 }
-function openLang() { toast('🌐 Ko\'p til tez orada!'); }
-function openSteam() { toast('🎮 Steam integratsiya tez orada!'); }
+function openLang() { toast('ð Ko\'p til tez orada!'); }
+function openSteam() { toast('ð® Steam integratsiya tez orada!'); }
 function showMyItems() {
   closeModal('tradeOverlay');
   goTab('market');
-  toast('📦 Sizning lotlaringiz bozorda ko\'rinadi');
+  toast('ð¦ Sizning lotlaringiz bozorda ko\'rinadi');
 }
 function openSupport() {
   try { tg.openTelegramLink('https://t.me/skinbazar_support'); }
-  catch(e) { toast('💬 @skinbazar_support'); }
+  catch(e) { toast('ð¬ @skinbazar_support'); }
 }
 
 // === INIT ===
