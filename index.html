@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+<title>CS2 Skins Market</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --surface: #13131a;
+    --card: #1a1a24;
+    --border: #2a2a3a;
+    --accent: #f0b90b;
+    --accent2: #00e676;
+    --text: #e8e8f0;
+    --muted: #666680;
+    --danger: #ff4757;
+    --knife: #e040fb;
+    --glove: #ff9800;
+    --rifle: #4fc3f7;
+    --pistol: #81c784;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+  body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif; overflow-x:hidden; max-width:480px; margin:0 auto; }
+
+  .tab-bar { position:fixed; bottom:0; left:50%; transform:translateX(-50%); width:100%; max-width:480px; background:var(--surface); border-top:1px solid var(--border); display:flex; z-index:100; padding-bottom:env(safe-area-inset-bottom); }
+  .tab-btn { flex:1; padding:12px 0 8px; display:flex; flex-direction:column; align-items:center; gap:4px; cursor:pointer; border:none; background:none; color:var(--muted); font-size:10px; font-weight:600; letter-spacing:.5px; text-transform:uppercase; transition:color .2s; }
+  .tab-btn svg { width:22px; height:22px; }
+  .tab-btn.active { color:var(--accent); }
+  .tab-btn.active svg { filter:drop-shadow(0 0 4px var(--accent)); }
+  .page { display:none; min-height:100vh; padding-bottom:80px; }
+  .page.active { display:block; }
+  .header { padding:16px 16px 8px; display:flex; align-items:center; justify-content:space-between; position:sticky; top:0; background:var(--bg); z-index:50; border-bottom:1px solid var(--border); }
+  .logo { font-size:18px; font-weight:800; letter-spacing:-0.5px; }
+  .logo span { color:var(--accent); }
+  .header-badge { background:var(--accent); color:#000; font-size:10px; font-weight:800; padding:3px 8px; border-radius:20px; }
+  .feed { padding:12px; display:flex; flex-direction:column; gap:12px; }
+  .skin-card { background:var(--card); border:1px solid var(--border); border-radius:16px; overflow:hidden; position:relative; }
+  .skin-card:active { transform:scale(0.98); }
+  .skin-img-wrap { position:relative; background:linear-gradient(135deg, #1a1a2e, #16213e); height:200px; display:flex; align-items:center; justify-content:center; overflow:hidden; }
+  .skin-img-wrap img { max-height:160px; max-width:90%; object-fit:contain; filter:drop-shadow(0 8px 24px rgba(0,0,0,.6)); }
+  .skin-type-badge { position:absolute; top:10px; left:10px; padding:4px 10px; border-radius:20px; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.5px; }
+  .type-Knife { background:rgba(224,64,251,.2); color:var(--knife); border:1px solid rgba(224,64,251,.3); }
+  .type-Glove { background:rgba(255,152,0,.2); color:var(--glove); border:1px solid rgba(255,152,0,.3); }
+  .type-Rifle { background:rgba(79,195,247,.2); color:var(--rifle); border:1px solid rgba(79,195,247,.3); }
+  .type-Pistol { background:rgba(129,199,132,.2); color:var(--pistol); border:1px solid rgba(129,199,132,.3); }
+  .type-Other { background:rgba(102,102,128,.2); color:var(--muted); border:1px solid var(--border); }
+  .exterior-badge { position:absolute; top:10px; right:10px; background:rgba(0,0,0,.6); padding:4px 8px; border-radius:8px; font-size:10px; font-weight:700; color:var(--accent); }
+  .skin-info { padding:14px; }
+  .skin-price { font-size:24px; font-weight:800; color:var(--accent); line-height:1; margin-bottom:6px; }
+  .skin-name { font-size:15px; font-weight:700; color:var(--text); margin-bottom:10px; }
+  .skin-meta { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:14px; }
+  .meta-chip { background:var(--surface); border:1px solid var(--border); padding:4px 10px; border-radius:8px; font-size:11px; color:var(--muted); }
+  .meta-chip strong { color:var(--text); }
+  .buy-btn { width:100%; padding:13px; background:var(--accent); color:#000; font-weight:800; font-size:15px; border:none; border-radius:10px; cursor:pointer; letter-spacing:.3px; transition:opacity .15s; }
+  .buy-btn:active { opacity:0.85; }
+  .fab { position:fixed; bottom:72px; right:16px; width:52px; height:52px; background:var(--accent); color:#000; border:none; border-radius:50%; font-size:26px; font-weight:700; cursor:pointer; display:flex; align-items:center; justify-content:center; box-shadow:0 4px 20px rgba(240,185,11,.4); z-index:90; transition:transform .15s; }
+  .fab:active { transform:scale(0.92); }
+  .profile-header { padding:24px 16px 20px; display:flex; flex-direction:column; align-items:center; gap:12px; background:linear-gradient(180deg, #1a1a2e 0%, var(--bg) 100%); border-bottom:1px solid var(--border); }
+  .profile-avatar { width:72px; height:72px; border-radius:50%; border:2px solid var(--accent); object-fit:cover; }
+  .profile-avatar-placeholder { width:72px; height:72px; border-radius:50%; background:var(--card); border:2px solid var(--accent); display:flex; align-items:center; justify-content:center; font-size:28px; font-weight:800; color:var(--accent); }
+  .profile-name { font-size:20px; font-weight:800; text-align:center; }
+  .profile-username { font-size:13px; color:var(--muted); }
+  .profile-menu { padding:12px; display:flex; flex-direction:column; gap:2px; }
+  .menu-item { display:flex; align-items:center; gap:14px; padding:16px; background:var(--card); border-radius:12px; cursor:pointer; border:1px solid var(--border); transition:background .15s; margin-bottom:2px; }
+  .menu-item:active { background:var(--surface); }
+  .menu-icon { width:36px; height:36px; border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:18px; flex-shrink:0; }
+  .menu-text { flex:1; }
+  .menu-label { font-size:14px; font-weight:600; }
+  .menu-sub { font-size:12px; color:var(--muted); margin-top:2px; }
+  .menu-arrow { color:var(--muted); font-size:18px; }
+  .menu-section-title { padding:16px 16px 8px; font-size:11px; font-weight:700; color:var(--muted); letter-spacing:1px; text-transform:uppercase; }
+  .modal-overlay { position:fixed; inset:0; background:rgba(0,0,0,.8); z-index:200; display:flex; align-items:flex-end; opacity:0; pointer-events:none; transition:opacity .25s; }
+  .modal-overlay.open { opacity:1; pointer-events:all; }
+  .modal { background:var(--surface); border-radius:20px 20px 0 0; padding:24px 16px 32px; width:100%; transform:translateY(100%); transition:transform .3s ease; max-height:90vh; overflow-y:auto; }
+  .modal-overlay.open .modal { transform:translateY(0); }
+  .modal-title { font-size:18px; font-weight:800; margin-bottom:20px; }
+  .modal-close { position:absolute; top:16px; right:16px; width:32px; height:32px; background:var(--card); border:none; border-radius:50%; color:var(--text); font-size:18px; cursor:pointer; display:flex; align-items:center; justify-content:center; }
+  label { display:block; font-size:12px; font-weight:700; color:var(--muted); text-transform:uppercase; letter-spacing:.5px; margin-bottom:6px; margin-top:14px; }
+  input, select, textarea { width:100%; background:var(--card); border:1px solid var(--border); color:var(--text); padding:12px 14px; border-radius:10px; font-size:14px; outline:none; }
+  input:focus, select:focus, textarea:focus { border-color:var(--accent); }
+  select option { background:var(--card); }
+  .row2 { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+  .submit-btn { width:100%; padding:15px; background:var(--accent); color:#000; font-weight:800; font-size:16px; border:none; border-radius:12px; cursor:pointer; margin-top:20px; }
+  .img-upload-area { border:2px dashed var(--border); border-radius:12px; padding:24px; text-align:center; cursor:pointer; margin-top:6px; transition:border-color .2s; }
+  .img-upload-area:hover { border-color:var(--accent); }
+  .img-upload-area img { max-height:120px; max-width:100%; border-radius:8px; }
+  #imgInput { display:none; }
+  .toast { position:fixed; top:16px; left:50%; transform:translateX(-50%) translateY(-80px); background:var(--accent2); color:#000; padding:10px 20px; border-radius:20px; font-weight:700; font-size:13px; z-index:999; transition:transform .3s; pointer-events:none; }
+  .toast.show { transform:translateX(-50%) translateY(0); }
+  .empty-state { padding:60px 20px; text-align:center; color:var(--muted); }
+  .empty-state div { font-size:48px; margin-bottom:12px; }
+  .loader { padding:40px; text-align:center; color:var(--muted); font-size:13px; }
+</style>
+</head>
+<body>
+
+<div id="page-main" class="page active">
+  <div class="header">
+    <div class="logo">CS2 <span>MARKET</span></div>
+    <div class="header-badge" id="listingCount">0 listings</div>
+  </div>
+  <div class="feed" id="skinsFeed">
+    <div class="loader">Loading skins...</div>
+  </div>
+</div>
+
+<div id="page-profile" class="page">
+  <div class="profile-header">
+    <div id="profileAvatar" class="profile-avatar-placeholder">?</div>
+    <div class="profile-name" id="profileName">Loading...</div>
+    <div class="profile-username" id="profileUsername">@username</div>
+  </div>
+  <div class="profile-menu">
+    <div class="menu-section-title">Account</div>
+    <div class="menu-item" onclick="openTradeLink()">
+      <div class="menu-icon" style="background:rgba(240,185,11,.15)">&#128279;</div>
+      <div class="menu-text"><div class="menu-label">Trade Link</div><div class="menu-sub" id="tradeLinkSub">Not set</div></div>
+      <div class="menu-arrow">&rsaquo;</div>
+    </div>
+    <div class="menu-item" onclick="openSteam()">
+      <div class="menu-icon" style="background:rgba(79,195,247,.15)">&#127918;</div>
+      <div class="menu-text"><div class="menu-label">Sign with Steam</div><div class="menu-sub" id="steamSub">Not connected</div></div>
+      <div class="menu-arrow">&rsaquo;</div>
+    </div>
+    <div class="menu-item" id="myItemsBtn" onclick="openMyItems()">
+      <div class="menu-icon" style="background:rgba(0,230,118,.15)">&#127890;</div>
+      <div class="menu-text"><div class="menu-label">My Items</div><div class="menu-sub">View your listings</div></div>
+      <div class="menu-arrow">&rsaquo;</div>
+    </div>
+    <div class="menu-section-title">Preferences</div>
+    <div class="menu-item" onclick="toggleNotif()">
+      <div class="menu-icon" style="background:rgba(255,71,87,.15)">&#128276;</div>
+      <div class="menu-text"><div class="menu-label">Notifications</div><div class="menu-sub" id="notifSub">Enabled</div></div>
+      <div class="menu-arrow">&rsaquo;</div>
+    </div>
+    <div class="menu-item" onclick="openLanguage()">
+      <div class="menu-icon" style="background:rgba(102,102,128,.2)">&#127760;</div>
+      <div class="menu-text"><div class="menu-label">Language</div><div class="menu-sub" id="langSub">English</div></div>
+      <div class="menu-arrow">&rsaquo;</div>
+    </div>
+    <div class="menu-section-title">Help</div>
+    <div class="menu-item" onclick="openSupport()">
+      <div class="menu-icon" style="background:rgba(79,195,247,.15)">&#128172;</div>
+      <div class="menu-text"><div class="menu-label">Contact Support</div><div class="menu-sub">@cs2market_support</div></div>
+      <div class="menu-arrow">&rsaquo;</div>
+    </div>
+  </div>
+</div>
+
+<nav class="tab-bar">
+  <button class="tab-btn active" id="tab-main" onclick="switchTab('main')">
+    <svg fill="currentColor" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline fill="none" stroke="currentColor" stroke-width="2" points="9 22 9 12 15 12 15 22"/></svg>
+    Market
+  </button>
+  <button class="tab-btn" id="tab-profile" onclick="switchTab('profile')">
+    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+    Profile
+  </button>
+</nav>
+
+<button class="fab" onclick="openSellModal()" title="Sell skin">+</button>
+
+<div class="modal-overlay" id="sellModal">
+  <div class="modal" style="position:relative">
+    <button class="modal-close" onclick="closeSellModal()">&#10005;</button>
+    <div class="modal-title">&#128230; List a Skin</div>
+    <label>Skin Image</label>
+    <div class="img-upload-area" onclick="document.getElementById('imgInput').click()">
+      <div id="imgPreview">&#128248; Tap to upload image</div>
+    </div>
+    <input type="file" id="imgInput" accept="image/*" onchange="previewImage(this)"/>
+    <label>Skin Name</label>
+    <input type="text" id="skinName" placeholder="e.g. AK-47 | Fire Serpent"/>
+    <div class="row2">
+      <div>
+        <label>Price ($)</label>
+        <input type="number" id="skinPrice" placeholder="0.00" step="0.01"/>
+      </div>
+      <div>
+        <label>Type</label>
+        <select id="skinType">
+          <option value="Knife">Knife</option>
+          <option value="Glove">Glove</option>
+          <option value="Rifle" selected>Rifle</option>
+          <option value="Pistol">Pistol</option>
+          <option value="SMG">SMG</option>
+          <option value="Heavy">Heavy</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+    </div>
+    <div class="row2">
+      <div>
+        <label>Exterior</label>
+        <select id="skinExterior">
+          <option value="Factory New">Factory New</option>
+          <option value="Minimal Wear">Minimal Wear</option>
+          <option value="Field-Tested" selected>Field-Tested</option>
+          <option value="Well-Worn">Well-Worn</option>
+          <option value="Battle-Scarred">Battle-Scarred</option>
+        </select>
+      </div>
+      <div>
+        <label>Float</label>
+        <input type="number" id="skinFloat" placeholder="0.0000" step="0.0001" min="0" max="1"/>
+      </div>
+    </div>
+    <label>Pattern (optional)</label>
+    <input type="number" id="skinPattern" placeholder="e.g. 412"/>
+    <label>Description (optional)</label>
+    <textarea id="skinDesc" rows="2" placeholder="Extra info about the skin..."></textarea>
+    <button class="submit-btn" onclick="submitSkin()">&#128640; List for Sale</button>
+  </div>
+</div>
+
+<div class="modal-overlay" id="tradeLinkModal">
+  <div class="modal" style="position:relative">
+    <button class="modal-close" onclick="document.getElementById('tradeLinkModal').classList.remove('open')">&#10005;</button>
+    <div class="modal-title">&#128279; Trade Link</div>
+    <label>Your Steam Trade URL</label>
+    <input type="url" id="tradeLinkInput" placeholder="https://steamcommunity.com/tradeoffer/new/?partner="/>
+    <button class="submit-btn" onclick="saveTradeLink()">Save</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const API = window.location.origin;
+let tg = null, currentUser = null;
+
+try { tg = window.Telegram.WebApp; tg.ready(); tg.expand(); } catch(e) {}
+
+function switchTab(tab) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('page-' + tab).classList.add('active');
+  document.getElementById('tab-' + tab).classList.add('active');
+  if (tab === 'profile') renderProfile();
+}
+
+function showToast(msg, duration=2500) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), duration);
+}
+
+async function authUser() {
+  let userData = { telegram_id: 999999, first_name: 'Demo', username: 'demouser', photo_url: null };
+  try {
+    if (tg && tg.initDataUnsafe && tg.initDataUnsafe.user) {
+      const u = tg.initDataUnsafe.user;
+      userData = { telegram_id: u.id, first_name: u.first_name, username: u.username || '', last_name: u.last_name || '', photo_url: u.photo_url || null };
+    }
+  } catch(e) {}
+  try {
+    const fd = new FormData();
+    Object.entries(userData).forEach(([k,v]) => v != null && fd.append(k, v));
+    const res = await fetch(API + '/api/users/auth', { method:'POST', body:fd });
+    currentUser = await res.json();
+  } catch(e) { currentUser = { telegram_id: 999999, first_name: 'Demo', username: 'demouser' }; }
+}
+
+function renderProfile() {
+  if (!currentUser) return;
+  const name = [currentUser.first_name, currentUser.last_name].filter(Boolean).join(' ');
+  document.getElementById('profileName').textContent = name || 'User';
+  document.getElementById('profileUsername').textContent = currentUser.username ? '@' + currentUser.username : '';
+  if (currentUser.photo_url) {
+    const el = document.getElementById('profileAvatar');
+    el.outerHTML = '<img id="profileAvatar" class="profile-avatar" src="' + currentUser.photo_url + '"/>';
+  } else {
+    document.getElementById('profileAvatar').textContent = (currentUser.first_name || '?')[0].toUpperCase();
+  }
+  document.getElementById('tradeLinkSub').textContent = currentUser.trade_link ? 'Set ✓' : 'Not set';
+  document.getElementById('notifSub').textContent = currentUser.notifications !== false ? 'Enabled' : 'Disabled';
+}
+
+async function loadSkins() {
+  try {
+    const res = await fetch(API + '/api/skins');
+    const skins = await res.json();
+    document.getElementById('listingCount').textContent = skins.length + ' listings';
+    const feed = document.getElementById('skinsFeed');
+    if (!skins.length) { feed.innerHTML = '<div class="empty-state"><div>🔫</div>No skins listed yet</div>'; return; }
+    feed.innerHTML = skins.map(s => skinCard(s)).join('');
+  } catch(e) {
+    document.getElementById('skinsFeed').innerHTML = '<div class="empty-state"><div>⚠️</div>Could not load skins</div>';
+  }
+}
+
+function exteriorShort(ext) {
+  const map = {'Factory New':'FN','Minimal Wear':'MW','Field-Tested':'FT','Well-Worn':'WW','Battle-Scarred':'BS'};
+  return map[ext] || ext;
+}
+
+function skinCard(s) {
+  const typeClass = 'type-' + (s.skin_type || 'Other');
+  const imgSrc = s.image_url.startsWith('/') ? API + s.image_url : s.image_url;
+  return '<div class="skin-card"><div class="skin-img-wrap"><img src="' + imgSrc + '" alt="' + s.name + '" onerror="this.src=\'data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\'%3E%3C/svg%3E\'"/><div class="skin-type-badge ' + typeClass + '">' + s.skin_type + '</div><div class="exterior-badge">' + exteriorShort(s.exterior) + '</div></div><div class="skin-info"><div class="skin-price">$' + parseFloat(s.price).toFixed(2) + '</div><div class="skin-name">' + s.name + '</div><div class="skin-meta"><div class="meta-chip"><strong>Ext:</strong> ' + s.exterior + '</div>' + (s.float_value != null ? '<div class="meta-chip"><strong>Float:</strong> ' + parseFloat(s.float_value).toFixed(4) + '</div>' : '') + (s.pattern != null ? '<div class="meta-chip"><strong>Pattern:</strong> #' + s.pattern + '</div>' : '') + '<div class="meta-chip"><strong>Type:</strong> ' + s.skin_type + '</div></div><button class="buy-btn" onclick="buySkin(' + s.id + ',\'' + s.name.replace(/'/g,"\\'")+\')\'">🛒 Buy Now</button></div></div>';
+}
+
+async function buySkin(id, name) {
+  if (!currentUser) return;
+  try {
+    const fd = new FormData();
+    fd.append('buyer_id', currentUser.telegram_id);
+    await fetch(API + '/api/skins/' + id + '/buy', { method:'POST', body:fd });
+    showToast('✅ Purchase request sent for ' + name + '!');
+    setTimeout(loadSkins, 1000);
+  } catch(e) { showToast('❌ Error, try again'); }
+}
+
+function openSellModal() {
+  if (!currentUser) { showToast('Please wait...'); return; }
+  document.getElementById('sellModal').classList.add('open');
+}
+function closeSellModal() { document.getElementById('sellModal').classList.remove('open'); }
+
+function previewImage(input) {
+  const file = input.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => { document.getElementById('imgPreview').innerHTML = '<img src="' + e.target.result + '"/>'; };
+  reader.readAsDataURL(file);
+}
+
+async function submitSkin() {
+  const name = document.getElementById('skinName').value.trim();
+  const price = document.getElementById('skinPrice').value;
+  const img = document.getElementById('imgInput').files[0];
+  if (!name || !price || !img) { showToast('⚠️ Fill all required fields + image'); return; }
+  const fd = new FormData();
+  fd.append('seller_id', currentUser.telegram_id);
+  fd.append('name', name);
+  fd.append('price', price);
+  fd.append('exterior', document.getElementById('skinExterior').value);
+  fd.append('skin_type', document.getElementById('skinType').value);
+  fd.append('image', img);
+  const fv = document.getElementById('skinFloat').value;
+  if (fv) fd.append('float_value', fv);
+  const pat = document.getElementById('skinPattern').value;
+  if (pat) fd.append('pattern', pat);
+  const desc = document.getElementById('skinDesc').value;
+  if (desc) fd.append('description', desc);
+  try {
+    const res = await fetch(API + '/api/skins', { method:'POST', body:fd });
+    if (!res.ok) throw new Error();
+    showToast('🎉 Skin listed successfully!');
+    closeSellModal();
+    loadSkins();
+    document.getElementById('skinName').value='';
+    document.getElementById('skinPrice').value='';
+    document.getElementById('imgPreview').innerHTML='📸 Tap to upload image';
+    document.getElementById('imgInput').value='';
+  } catch(e) { showToast('❌ Failed to list skin'); }
+}
+
+function openTradeLink() {
+  document.getElementById('tradeLinkInput').value = currentUser && currentUser.trade_link ? currentUser.trade_link : '';
+  document.getElementById('tradeLinkModal').classList.add('open');
+}
+async function saveTradeLink() {
+  const val = document.getElementById('tradeLinkInput').value.trim();
+  if (!currentUser) return;
+  try {
+    const fd = new FormData(); fd.append('trade_link', val);
+    const res = await fetch(API + '/api/users/' + currentUser.telegram_id, { method:'PATCH', body:fd });
+    currentUser = await res.json();
+    document.getElementById('tradeLinkModal').classList.remove('open');
+    showToast('✅ Trade link saved!');
+    renderProfile();
+  } catch(e) { showToast('❌ Error saving'); }
+}
+
+function openSteam() { showToast('🎮 Steam integration coming soon!'); }
+function openMyItems() { showToast('🎒 Your items coming soon!'); }
+function toggleNotif() {
+  if (!currentUser) return;
+  const fd = new FormData();
+  fd.append('notifications', !currentUser.notifications);
+  fetch(API + '/api/users/' + currentUser.telegram_id, { method:'PATCH', body:fd })
+    .then(r => r.json()).then(u => { currentUser = u; renderProfile(); showToast(u.notifications ? '🔔 Notifications on' : '🔕 Notifications off'); });
+}
+function openLanguage() { showToast('🌐 Language settings coming soon!'); }
+function openSupport() {
+  try { tg.openTelegramLink('https://t.me/cs2market_support'); } catch(e) { showToast('📩 @cs2market_support'); }
+}
+
+document.querySelectorAll('.modal-overlay').forEach(el => {
+  el.addEventListener('click', e => { if (e.target === el) el.classList.remove('open'); });
+});
+
+(async () => {
+  await authUser();
+  await loadSkins();
+})();
+</script>
+</body>
+</html>
