@@ -1,11 +1,11 @@
-from fastapi import FastAPI, Depends, HTTPException, UploadFile, File, Form
+from fastapi import FastAPI, Depends, HTTPException, UploadFile, File, Form, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
 from sqlalchemy.orm import Session
 from database import get_db, init_db, User, Skin
 from typing import Optional
-import os, shutil, uuid
+import os, shutil, uuid, httpx
 
 app = FastAPI(title="CS2 Skins Market")
 
@@ -18,6 +18,8 @@ app.add_middleware(
 
 UPLOAD_DIR = "uploads"
 os.makedirs(UPLOAD_DIR, exist_ok=True)
+BOT_TOKEN = os.getenv("BOT_TOKEN", "")
+APP_URL = os.getenv("APP_URL", "https://cs2-skins-market-production.up.railway.app")
 
 @app.on_event("startup")
 def startup():
@@ -28,6 +30,32 @@ app.mount("/uploads", StaticFiles(directory="uploads"), name="uploads")
 @app.get("/")
 def root():
     return FileResponse("index.html")
+
+# --- TELEGRAM WEBHOOK ---
+@app.post("/webhook")
+async def telegram_webhook(request: Request):
+    if not BOT_TOKEN:
+        return {"ok": False}
+    data = await request.json()
+    message = data.get("message", {})
+    text = message.get("text", "")
+    chat_id = message.get("chat", {}).get("id")
+    first_name = message.get("from", {}).get("first_name", "User")
+    if not chat_id:
+        return {"ok": True}
+    if text in ["/start", "/market"]:
+        payload = {
+            "chat_id": chat_id,
+            "text": f"Salom, {first_name}! CS2 Skins Market ga xush kelibsiz! Skinlarni ko'rish va sotish uchun tugmani bosing.",
+            "reply_markup": {
+                "inline_keyboard": [[
+                    {"text": "🎮 CS2 Market ochish", "web_app": {"url": APP_URL}}
+                ]]
+            }
+        }
+        async with httpx.AsyncClient() as client:
+            await client.post(f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage", json=payload)
+    return {"ok": True}
 
 # --- USERS ---
 @app.post("/api/users/auth")
@@ -97,7 +125,6 @@ async def create_skin(
     path = f"{UPLOAD_DIR}/{filename}"
     with open(path, "wb") as f:
         shutil.copyfileobj(image.file, f)
-
     skin = Skin(
         seller_id=seller_id, name=name, price=price, exterior=exterior,
         float_value=float_value, pattern=pattern, skin_type=skin_type,
