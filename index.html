@@ -56,7 +56,7 @@ html, body {
   top: 0;
   z-index: 50;
   background: var(--bg);
-  padding: calc(12px + env(safe-area-inset-top, 84px)) 16px 10px;
+  padding: 16px 16px 10px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -314,7 +314,7 @@ html, body {
 /* PROFILE PAGE */
 .profile-top {
   background: linear-gradient(180deg, #1a1a2e 0%, var(--bg) 100%);
-  padding: 28px 16px 22px;
+  padding: calc(env(safe-area-inset-top, 0px) + 28px) 16px 22px;
   display: flex;
   flex-direction: column;
   align-items: center;
