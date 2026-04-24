@@ -729,7 +729,7 @@ let tg, user = null, pendingBuy = null;
 try {
   tg = window.Telegram.WebApp;
   tg.ready();
-  tg.expand();
+  tg.expand(); if(tg.requestFullscreen) tg.requestFullscreen();
   tg.disableClosingConfirmation && tg.disableClosingConfirmation();
   if (tg.setHeaderColor) tg.setHeaderColor('#0d0d12');
   if (tg.setBackgroundColor) tg.setBackgroundColor('#0d0d12');
