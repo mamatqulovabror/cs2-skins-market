@@ -25,7 +25,7 @@
   --pistol: #81c784;
   --smg: #ff8a65;
   --heavy: #90a4ae;
-  --tab-h: 92px;
+  --tab-h: calc(72px + env(safe-area-inset-bottom, 20px));
 }
 * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
 html, body {
