@@ -616,7 +616,7 @@ html, body {
 <div class="overlay" id="sellOverlay">
   <div class="modal">
     <div class="modal-drag"></div>
-    <button class="modal-close" onclick="closeModal('sellOverlay')"></button>
+    <button class="modal-close" onclick="closeModal('sellOverlay')">✕</button>
     <div class="modal-scroll">
       <div class="modal-title" style="text-align:center">Skin yuklash</div>
       <div class="field">
@@ -672,6 +672,8 @@ html, body {
         <input type="number" id="f-pattern" placeholder="masalan: 412"/>
       </div>
       <div class="field">
+        <label>Tavsif (ixtiyoriy)</label>
+        <textarea id="f-desc" rows="2" placeholder="Qo'shimcha ma'lumot..."></textarea>
       </div>
       <button class="submit-btn" id="sellBtn" onclick="submitSkin()">
          Skin yuklash
