@@ -9,7 +9,7 @@ let myCards=JSON.parse(localStorage.getItem('myCards')||'[]');
 const cardColors={uzcard:'linear-gradient(135deg,#1a6b3a,#2d9e5a)',humo:'linear-gradient(135deg,#1a3a6b,#2d5ea0)',visa:'linear-gradient(135deg,#1a1f6b,#2d3aa0)',mastercard:'linear-gradient(135deg,#6b1a1a,#a02d2d)'};
 const cardLogos={uzcard:'UZCARD',humo:'HUMO',visa:'VISA',mastercard:'MASTERCARD'};
 function getCardType(n){n=n.replace(/\s/g,'');if(n.startsWith('9860')||n.startsWith('860'))return'uzcard';if(n.startsWith('9562'))return'humo';if(n.startsWith('4'))return'visa';if(n.startsWith('5'))return'mastercard';return'visa';}
-function openMyCards(){renderCardsList();document.getElementById('cardsOverlay').style.display='block';}
+function openMyCards(){renderCardsList();document.getElementById('cardsOverlay').style.display='flex';document.getElementById('cardsOverlay').style.flexDirection='column';}
 function closeMyCards(){document.getElementById('cardsOverlay').style.display='none';}
 function openAddCard(){
   document.getElementById('addCardOverlay').style.display='block';
@@ -1139,7 +1139,7 @@ function openSupport() {
 })();
 </script>
 
-<div id="cardsOverlay" class="overlay" style="display:none">
+<div id="cardsOverlay" style="display:none;position:fixed;inset:0;z-index:200;background:var(--bg, #0d0d12);">
   <div class="overlay-page">
     <div class="overlay-header">
       <button class="back-btn" onclick="closeMyCards()"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg></button>
