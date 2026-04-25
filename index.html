@@ -5,57 +5,78 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"/>
 <title>Skin Bazar</title>
 <script src="https://telegram.org/js/telegram-web-app.js">
-let myCards=JSON.parse(localStorage.getItem('myCards')||'[]');
-const cardColors={uzcard:'linear-gradient(135deg,#1a6b3a,#2d9e5a)',humo:'linear-gradient(135deg,#1a3a6b,#2d5ea0)',visa:'linear-gradient(135deg,#1a1f6b,#2d3aa0)',mastercard:'linear-gradient(135deg,#6b1a1a,#a02d2d)'};
-const cardLogos={uzcard:'UZCARD',humo:'HUMO',visa:'VISA',mastercard:'MASTERCARD'};
-function getCardType(n){n=n.replace(/\s/g,'');if(n.startsWith('9860')||n.startsWith('860'))return'uzcard';if(n.startsWith('9562'))return'humo';if(n.startsWith('4'))return'visa';if(n.startsWith('5'))return'mastercard';return'visa';}
-function openMyCards(){renderCardsList();document.getElementById('cardsOverlay').style.display='flex';document.getElementById('cardsOverlay').style.flexDirection='column';}
-function closeMyCards(){document.getElementById('cardsOverlay').style.display='none';}
+  el.innerHTML=myCards.map(c=>`<div class="card-item ${c.type}"><div class="card-item-top"><span class="card-item-logo">${cardLogos[c.type]}</span><button class="card-item-del" onclick="deleteCard(${c.id})">✕</button></div><div class="card-item-num">•••• •••• •••• ${c.last4}</div><div class="card-item-exp">${c.exp} · ${c.name}</div></div>`).join('');
+}
+
+var myCards=JSON.parse(localStorage.getItem('myCards')||'[]');
+var cColors={uzcard:'linear-gradient(135deg,#1a6b3a,#2d9e5a)',humo:'linear-gradient(135deg,#0d3b7a,#1a5fbf)',visa:'linear-gradient(135deg,#1a1f6b,#2d3aa0)',mastercard:'linear-gradient(135deg,#7a1a1a,#bf3a1a)'};
+var cLogos={uzcard:'UZCARD',humo:'HUMO',visa:'VISA',mastercard:'MASTERCARD'};
+function getCardType(n){n=(n||'').replace(/\s/g,'');if(n.startsWith('9860')||n.startsWith('8600'))return'uzcard';if(n.startsWith('9562'))return'humo';if(n.startsWith('5'))return'mastercard';return'visa';}
+function openMyCards(){document.getElementById('cardsPage').classList.add('active');renderCards();}
+function closeMyCards(){document.getElementById('cardsPage').classList.remove('active');}
 function openAddCard(){
-  document.getElementById('addCardOverlay').style.display='block';
-  ['cardNum','cardExp','cardCvv','cardName'].forEach(id=>document.getElementById(id).value='');
-  document.getElementById('cardPreviewNum').textContent='•••• •••• •••• ••••';
-  document.getElementById('cardPreviewExp').textContent='MM/YY';
-  document.getElementById('cardPreviewName').textContent='KARTA EGASI';
-  document.getElementById('cardPreviewType').textContent='VISA';
-  document.getElementById('cardPreview').style.background=cardColors.visa;
+  document.getElementById('addCardSheet').classList.add('active');
+  document.getElementById('acNum').value='';
+  document.getElementById('acExp').value='';
+  document.getElementById('acCvv').value='';
+  document.getElementById('acName').value='';
+  document.getElementById('cpPrevNum').textContent='•••• •••• •••• ••••';
+  document.getElementById('cpPrevExp').textContent='MM/YY';
+  document.getElementById('cpPrevName').textContent='KARTA EGASI';
+  document.getElementById('cpPrevLogo').textContent='VISA';
+  document.getElementById('cardPrev').style.background=cColors.visa;
 }
-function closeAddCard(){document.getElementById('addCardOverlay').style.display='none';}
-function formatCardNum(inp){
-  let v=inp.value.replace(/\D/g,'').substring(0,16);
+function closeAddCard(){document.getElementById('addCardSheet').classList.remove('active');}
+function onCardNum(inp){
+  var v=inp.value.replace(/\D/g,'').substring(0,16);
   inp.value=v.replace(/(\d{4})(?=\d)/g,'$1 ');
-  const masked=('•••• •••• •••• '+v.slice(-4)).slice(-19);
-  document.getElementById('cardPreviewNum').textContent=v.length?masked:'•••• •••• •••• ••••';
-  const t=getCardType(v);
-  document.getElementById('cardPreviewType').textContent=cardLogos[t];
-  document.getElementById('cardPreview').style.background=cardColors[t];
+  var t=getCardType(v);
+  document.getElementById('cpPrevLogo').textContent=cLogos[t];
+  document.getElementById('cardPrev').style.background=cColors[t];
+  var masked=v.length>=4?'•••• •••• •••• '+v.slice(-4):'•••• •••• •••• ••••';
+  document.getElementById('cpPrevNum').textContent=masked;
 }
-function formatExp(inp){
-  let v=inp.value.replace(/\D/g,'');
-  if(v.length>=2)v=v.substring(0,2)+'/'+v.substring(2,4);
+function onCardExp(inp){
+  var v=inp.value.replace(/\D/g,'');
+  if(v.length>2)v=v.substring(0,2)+'/'+v.substring(2,4);
   inp.value=v;
-  document.getElementById('cardPreviewExp').textContent=v||'MM/YY';
+  document.getElementById('cpPrevExp').textContent=v||'MM/YY';
 }
-function saveCard(){
-  const num=document.getElementById('cardNum').value.replace(/\s/g,'');
-  const exp=document.getElementById('cardExp').value;
-  if(num.length<16){toast('To\'liq karta raqamini kiriting');return;}
+function doSaveCard(){
+  var num=document.getElementById('acNum').value.replace(/\s/g,'');
+  var exp=document.getElementById('acExp').value;
+  if(num.length<16){toast("To'liq karta raqamini kiriting");return;}
   if(exp.length<5){toast('Muddatni kiriting');return;}
-  const type=getCardType(num);
-  const name=document.getElementById('cardName').value||'Karta egasi';
-  myCards.push({id:Date.now(),num,exp,name,type,last4:num.slice(-4)});
+  var t=getCardType(num);
+  var name=document.getElementById('acName').value||'Egasi';
+  myCards.push({id:Date.now(),num:num,exp:exp,name:name,type:t,last4:num.slice(-4)});
   localStorage.setItem('myCards',JSON.stringify(myCards));
-  closeAddCard();renderCardsList();toast('✅ Karta qo\'shildi');
+  closeAddCard();
+  renderCards();
+  toast('✅ Karta qo\'shildi');
 }
 function deleteCard(id){
-  myCards=myCards.filter(c=>c.id!==id);
+  myCards=myCards.filter(function(c){return c.id!==id;});
   localStorage.setItem('myCards',JSON.stringify(myCards));
-  renderCardsList();
+  renderCards();
 }
-function renderCardsList(){
-  const el=document.getElementById('cardsList');
-  if(!myCards.length){el.innerHTML='<div class="empty-cards">Hali karta qo\'shilmagan</div>';return;}
-  el.innerHTML=myCards.map(c=>`<div class="card-item ${c.type}"><div class="card-item-top"><span class="card-item-logo">${cardLogos[c.type]}</span><button class="card-item-del" onclick="deleteCard(${c.id})">✕</button></div><div class="card-item-num">•••• •••• •••• ${c.last4}</div><div class="card-item-exp">${c.exp} · ${c.name}</div></div>`).join('');
+function renderCards(){
+  var body=document.getElementById('cpBody');
+  var empty=document.getElementById('cpEmpty');
+  var chips=body.querySelectorAll('.card-chip');
+  chips.forEach(function(c){c.remove();});
+  if(myCards.length){
+    empty.style.display='none';
+    var addBtn=body.querySelector('.add-card-btn');
+    myCards.forEach(function(c){
+      var d=document.createElement('div');
+      d.className='card-chip '+c.type;
+      d.innerHTML='<div class="card-chip-top"><span class="card-chip-logo">'+cLogos[c.type]+'</span><button class="card-chip-del" onclick="deleteCard('+c.id+')">✕</button></div><div class="card-chip-num">•••• •••• •••• '+c.last4+'</div><div class="card-chip-bot"><div><div class="card-chip-label">Muddat</div><div class="card-chip-val">'+c.exp+'</div></div><div><div class="card-chip-label">Egasi</div><div class="card-chip-val">'+c.name+'</div></div></div>';
+      body.insertBefore(d,addBtn);
+    });
+  } else {
+    empty.style.display='block';
+  }
 }
 </script>
 <style>
@@ -570,41 +591,46 @@ html, body {
   cursor: pointer;
 }
 
-/* === CARDS === */
-.overlay-page{position:fixed;inset:0;background:var(--bg);z-index:200;display:flex;flex-direction:column;}
-.overlay-header{display:flex;align-items:center;justify-content:space-between;padding:calc(env(safe-area-inset-top,60px) + 8px) 16px 12px;border-bottom:1px solid var(--border);}
-.overlay-header span{font-size:17px;font-weight:600;}
-.back-btn{width:36px;height:36px;border-radius:50%;background:var(--card);border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text);}
-.overlay-body{flex:1;overflow-y:auto;padding:20px 16px;}
-.cards-list{display:flex;flex-direction:column;gap:12px;margin-bottom:20px;}
-.card-item{border-radius:16px;padding:20px;position:relative;min-height:110px;display:flex;flex-direction:column;justify-content:space-between;}
-.card-item.uzcard{background:linear-gradient(135deg,#1a6b3a,#2d9e5a);}
-.card-item.humo{background:linear-gradient(135deg,#1a3a6b,#2d5ea0);}
-.card-item.visa{background:linear-gradient(135deg,#1a1f6b,#2d3aa0);}
-.card-item.mastercard{background:linear-gradient(135deg,#6b1a1a,#a02d2d);}
-.card-item-top{display:flex;justify-content:space-between;align-items:center;}
-.card-item-logo{font-size:13px;font-weight:700;color:rgba(255,255,255,.9);letter-spacing:1px;}
-.card-item-del{background:rgba(0,0,0,.25);border:none;color:#fff;width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;}
-.card-item-num{font-size:15px;letter-spacing:3px;color:#fff;font-weight:500;text-align:center;}
-.card-item-exp{font-size:12px;color:rgba(255,255,255,.7);}
-.add-card-btn{width:100%;padding:14px;border:2px dashed var(--border);background:transparent;color:var(--text);border-radius:14px;font-size:15px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;}
-.empty-cards{text-align:center;padding:40px 0;color:var(--sub);font-size:14px;}
-.add-card-modal{position:fixed;bottom:0;left:0;right:0;background:var(--surface);border-radius:20px 20px 0 0;padding:20px 16px calc(env(safe-area-inset-bottom,20px) + 16px);z-index:201;max-height:90vh;overflow-y:auto;}
-.add-card-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;}
-.add-card-header span{font-size:17px;font-weight:600;}
-.add-card-header button{background:var(--card);border:none;color:var(--text);width:30px;height:30px;border-radius:50%;cursor:pointer;font-size:16px;}
-.card-preview{border-radius:16px;padding:20px;background:linear-gradient(135deg,#1a1f6b,#2d3aa0);margin-bottom:20px;min-height:110px;display:flex;flex-direction:column;justify-content:space-between;transition:background .3s;}
-.card-preview-type{font-size:13px;font-weight:700;color:rgba(255,255,255,.9);letter-spacing:1px;}
-.card-preview-num{font-size:16px;letter-spacing:3px;color:#fff;font-weight:500;text-align:center;margin:8px 0;}
-.card-preview-bottom{display:flex;justify-content:space-between;}
-.card-preview-label{font-size:10px;color:rgba(255,255,255,.6);text-transform:uppercase;}
-.card-preview-val{font-size:13px;color:#fff;font-weight:500;}
-.add-card-fields{display:flex;flex-direction:column;gap:12px;margin-bottom:16px;}
-.add-field{display:flex;flex-direction:column;gap:6px;}
-.add-field label{font-size:12px;color:var(--sub);font-weight:600;text-transform:uppercase;letter-spacing:.5px;}
-.add-field input{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px 14px;color:var(--text);font-size:16px;outline:none;}
-.add-field-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
-.modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:200;}
+
+
+#cardsPage{position:fixed;top:0;left:0;right:0;bottom:0;background:#0d0d12;z-index:999;display:none;flex-direction:column;}
+#cardsPage.active{display:flex;}
+.cp-header{display:flex;align-items:center;gap:12px;padding:calc(env(safe-area-inset-top,60px) + 8px) 16px 12px;border-bottom:1px solid #2e2e42;}
+.cp-back{width:36px;height:36px;border-radius:50%;background:#1e1e2a;border:none;color:#eeeef5;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;}
+.cp-title{font-size:17px;font-weight:600;color:#eeeef5;}
+.cp-body{flex:1;overflow-y:auto;padding:20px 16px;display:flex;flex-direction:column;gap:12px;}
+.card-chip{border-radius:16px;padding:18px 20px;display:flex;flex-direction:column;gap:10px;position:relative;}
+.card-chip.uzcard{background:linear-gradient(135deg,#1a6b3a,#2d9e5a);}
+.card-chip.humo{background:linear-gradient(135deg,#0d3b7a,#1a5fbf);}
+.card-chip.visa{background:linear-gradient(135deg,#1a1f6b,#2d3aa0);}
+.card-chip.mastercard{background:linear-gradient(135deg,#7a1a1a,#bf3a1a);}
+.card-chip-top{display:flex;justify-content:space-between;align-items:center;}
+.card-chip-logo{color:#fff;font-weight:700;font-size:13px;letter-spacing:1px;}
+.card-chip-del{background:rgba(0,0,0,.3);border:none;color:#fff;width:26px;height:26px;border-radius:50%;cursor:pointer;font-size:13px;}
+.card-chip-num{color:#fff;font-size:15px;letter-spacing:3px;text-align:center;}
+.card-chip-bot{display:flex;justify-content:space-between;}
+.card-chip-label{font-size:10px;color:rgba(255,255,255,.6);text-transform:uppercase;}
+.card-chip-val{font-size:13px;color:#fff;font-weight:500;}
+.add-card-btn{width:100%;padding:14px;border:2px dashed #2e2e42;background:transparent;color:#eeeef5;border-radius:14px;font-size:15px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;margin-top:4px;}
+.empty-cards{text-align:center;padding:60px 0;color:#9090aa;font-size:14px;}
+#addCardSheet{position:fixed;top:0;left:0;right:0;bottom:0;z-index:1000;display:none;}
+#addCardSheet.active{display:block;}
+.acs-bg{position:absolute;inset:0;background:rgba(0,0,0,.6);}
+.acs-modal{position:absolute;bottom:0;left:0;right:0;background:#16161f;border-radius:20px 20px 0 0;padding:20px 16px calc(env(safe-area-inset-bottom,16px) + 16px);max-height:92vh;overflow-y:auto;}
+.acs-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;}
+.acs-header span{font-size:17px;font-weight:600;color:#eeeef5;}
+.acs-close{background:#1e1e2a;border:none;color:#eeeef5;width:30px;height:30px;border-radius:50%;cursor:pointer;font-size:16px;}
+.card-prev{border-radius:16px;padding:20px;margin-bottom:18px;min-height:110px;display:flex;flex-direction:column;justify-content:space-between;transition:background .3s;background:linear-gradient(135deg,#1a1f6b,#2d3aa0);}
+.cp-prev-logo{color:#fff;font-weight:700;font-size:13px;letter-spacing:1px;}
+.cp-prev-num{color:#fff;font-size:16px;letter-spacing:3px;text-align:center;margin:8px 0;}
+.cp-prev-bot{display:flex;justify-content:space-between;}
+.cp-prev-lbl{font-size:10px;color:rgba(255,255,255,.6);text-transform:uppercase;}
+.cp-prev-val{font-size:13px;color:#fff;font-weight:500;}
+.acs-fields{display:flex;flex-direction:column;gap:12px;margin-bottom:16px;}
+.acs-field{display:flex;flex-direction:column;gap:6px;}
+.acs-field label{font-size:12px;color:#9090aa;font-weight:600;text-transform:uppercase;}
+.acs-field input{background:#1e1e2a;border:1px solid #2e2e42;border-radius:12px;padding:12px 14px;color:#eeeef5;font-size:16px;outline:none;width:100%;box-sizing:border-box;}
+.acs-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
 </style>
 </head>
 <body>
@@ -1139,30 +1165,7 @@ function openSupport() {
 })();
 </script>
 
-<div id="cardsOverlay" style="display:none;position:fixed;inset:0;z-index:200;background:var(--bg, #0d0d12);">
-  <div class="overlay-page">
-    <div class="overlay-header">
-      <button class="back-btn" onclick="closeMyCards()"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg></button>
-      <span>Mening kartalarim</span>
-      <div style="width:36px"></div>
-    </div>
-    <div class="overlay-body">
-      <div id="cardsList" class="cards-list"></div>
-      <button class="add-card-btn" onclick="openAddCard()"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Karta qo'shish</button>
-    </div>
-  </div>
-</div>
-<div id="addCardOverlay" style="display:none">
-  <div class="modal-backdrop" onclick="closeAddCard()"></div>
-  <div class="add-card-modal">
-    <div class="add-card-header"><span>Yangi karta</span><button onclick="closeAddCard()">✕</button></div>
-    <div class="card-preview" id="cardPreview">
-      <div class="card-preview-type" id="cardPreviewType">VISA</div>
-      <div class="card-preview-num" id="cardPreviewNum">•••• •••• •••• ••••</div>
-      <div class="card-preview-bottom">
-        <div><div class="card-preview-label">Muddat</div><div class="card-preview-val" id="cardPreviewExp">MM/YY</div></div>
-        <div><div class="card-preview-label">Egasi</div><div class="card-preview-val" id="cardPreviewName">KARTA EGASI</div></div>
-      </div>
+
     </div>
     <div class="add-card-fields">
       <div class="add-field"><label>Karta raqami</label><input id="cardNum" type="tel" maxlength="19" placeholder="0000 0000 0000 0000" oninput="formatCardNum(this)"/></div>
@@ -1173,6 +1176,52 @@ function openSupport() {
       <div class="add-field"><label>Karta egasi (ixtiyoriy)</label><input id="cardName" type="text" placeholder="ABRORBEK M" oninput="document.getElementById('cardPreviewName').textContent=this.value.toUpperCase()||'KARTA EGASI'"/></div>
     </div>
     <button class="submit-btn" onclick="saveCard()">Kartani saqlash</button>
+  </div>
+</div>
+
+<div id="cardsPage">
+  <div class="cp-header">
+    <button class="cp-back" onclick="closeMyCards()">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+    </button>
+    <span class="cp-title">Mening kartalarim</span>
+  </div>
+  <div class="cp-body" id="cpBody">
+    <div class="empty-cards" id="cpEmpty">Hali karta qo'shilmagan</div>
+    <button class="add-card-btn" onclick="openAddCard()">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      Karta qo'shish
+    </button>
+  </div>
+</div>
+
+<div id="addCardSheet">
+  <div class="acs-bg" onclick="closeAddCard()"></div>
+  <div class="acs-modal">
+    <div class="acs-header"><span>Yangi karta</span><button class="acs-close" onclick="closeAddCard()">✕</button></div>
+    <div class="card-prev" id="cardPrev">
+      <div class="cp-prev-logo" id="cpPrevLogo">VISA</div>
+      <div class="cp-prev-num" id="cpPrevNum">•••• •••• •••• ••••</div>
+      <div class="cp-prev-bot">
+        <div><div class="cp-prev-lbl">Muddat</div><div class="cp-prev-val" id="cpPrevExp">MM/YY</div></div>
+        <div><div class="cp-prev-lbl">Egasi</div><div class="cp-prev-val" id="cpPrevName">KARTA EGASI</div></div>
+      </div>
+    </div>
+    <div class="acs-fields">
+      <div class="acs-field">
+        <label>Karta raqami</label>
+        <input id="acNum" type="tel" maxlength="19" placeholder="0000 0000 0000 0000" oninput="onCardNum(this)">
+      </div>
+      <div class="acs-row">
+        <div class="acs-field"><label>Muddat</label><input id="acExp" type="tel" maxlength="5" placeholder="MM/YY" oninput="onCardExp(this)"></div>
+        <div class="acs-field"><label>CVV</label><input id="acCvv" type="tel" maxlength="3" placeholder="•••"></div>
+      </div>
+      <div class="acs-field">
+        <label>Ism (ixtiyoriy)</label>
+        <input id="acName" type="text" placeholder="ABRORBEK M" oninput="document.getElementById('cpPrevName').textContent=this.value.toUpperCase()||'KARTA EGASI'">
+      </div>
+    </div>
+    <button class="submit-btn" onclick="doSaveCard()">Kartani saqlash</button>
   </div>
 </div>
 </body>
