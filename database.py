@@ -35,6 +35,8 @@ class Skin(Base):
     skin_type = Column(String)
     image_url = Column(String)
     description = Column(String, nullable=True)
+    phone = Column(String, nullable=True)
+    tg_username = Column(String, nullable=True)
     is_sold = Column(Boolean, default=False)
     created_at = Column(DateTime, default=datetime.utcnow)
 
