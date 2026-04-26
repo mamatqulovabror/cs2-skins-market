@@ -117,6 +117,8 @@ async def create_skin(
     pattern: Optional[int] = Form(None),
     skin_type: str = Form(...),
     description: Optional[str] = Form(None),
+    phone: Optional[str] = Form(None),
+    tg_username: Optional[str] = Form(None),
     image: UploadFile = File(...),
     db: Session = Depends(get_db)
 ):
@@ -128,7 +130,9 @@ async def create_skin(
     skin = Skin(
         seller_id=seller_id, name=name, price=price, exterior=exterior,
         float_value=float_value, pattern=pattern, skin_type=skin_type,
-        description=description, image_url=f"/uploads/{filename}"
+        description=description,
+        phone=phone,
+        tg_username=tg_username, image_url=f"/uploads/{filename}"
     )
     db.add(skin)
     db.commit()
@@ -142,4 +146,9 @@ def buy_skin(skin_id: int, buyer_id: int = Form(...), db: Session = Depends(get_
         raise HTTPException(400, "Skin not available")
     skin.is_sold = True
     db.commit()
-    return {"status": "success", "message": "Purchase request sent"}
+    return {
+        "status": "success",
+        "message": "Purchase request sent",
+        "seller_phone": skin.phone,
+        "seller_tg": skin.tg_username
+    }
