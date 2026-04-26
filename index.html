@@ -4,7 +4,49 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"/>
 <title>Skin Bazar</title>
-<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<script src="https://telegram.org/js/telegram-web-app.js">
+var _buySkinId = null;
+function openBuyModal(skinId, skinName) {
+  _buySkinId = skinId;
+  document.getElementById('buyModalSkinName').textContent = skinName || '';
+  document.getElementById('sellerContactsBox').style.display = 'none';
+  document.getElementById('buyModalBtns').style.display = 'flex';
+  document.getElementById('buyConfirmBtn').textContent = '💳 To\'lovni tasdiqlash';
+  document.getElementById('buyConfirmBtn').disabled = false;
+  document.getElementById('buyModalOverlay').classList.add('open');
+}
+function closeBuyModal() {
+  document.getElementById('buyModalOverlay').classList.remove('open');
+  _buySkinId = null;
+}
+async function confirmBuy() {
+  if (!_buySkinId || !user) { toast("Avval tizimga kiring"); return; }
+  const btn = document.getElementById('buyConfirmBtn');
+  btn.textContent = 'Yuklanmoqda...';
+  btn.disabled = true;
+  try {
+    const fd = new FormData();
+    fd.append('buyer_id', user.telegram_id);
+    const res = await fetch(API + '/api/skins/' + _buySkinId + '/buy', { method: 'POST', body: fd });
+    const data = await res.json();
+    if (data.status === 'success') {
+      document.getElementById('sellerPhoneVal').textContent = data.seller_phone || "Ko\'rsatilmagan";
+      document.getElementById('sellerTgVal').textContent = data.seller_tg ? '@' + data.seller_tg.replace('@','') : "Ko\'rsatilmagan";
+      document.getElementById('sellerContactsBox').style.display = 'block';
+      document.getElementById('buyModalBtns').style.display = 'none';
+      loadSkins();
+    } else {
+      toast(data.detail || 'Xatolik yuz berdi');
+      btn.textContent = '💳 To\'lovni tasdiqlash';
+      btn.disabled = false;
+    }
+  } catch(e) {
+    toast('Tarmoq xatosi');
+    btn.textContent = '💳 To\'lovni tasdiqlash';
+    btn.disabled = false;
+  }
+}
+</script>
 <style>
 :root {
   --bg: #0d0d12;
@@ -516,6 +558,27 @@ html, body {
   border-radius: 14px;
   cursor: pointer;
 }
+
+.buy-modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:500;display:none;align-items:flex-end;}
+.buy-modal-overlay.open{display:flex;}
+.buy-modal{background:#16161f;border-radius:20px 20px 0 0;padding:24px 16px calc(env(safe-area-inset-bottom,16px)+24px);width:100%;max-height:85vh;overflow-y:auto;}
+.buy-modal-title{font-size:18px;font-weight:700;color:#eeeef5;text-align:center;margin-bottom:4px;}
+.buy-modal-sub{font-size:13px;color:#9090aa;text-align:center;margin-bottom:16px;}
+.escrow-box{background:#1e1e2a;border-radius:14px;padding:16px;margin-bottom:16px;border-left:3px solid var(--accent);}
+.escrow-box p{font-size:13px;color:#9090aa;line-height:1.7;margin:0;}
+.escrow-box strong{color:#eeeef5;}
+.seller-contacts-box{background:#0d1f12;border-radius:14px;padding:16px;margin-bottom:16px;border:1px solid #00e676;display:none;}
+.seller-contacts-box h4{font-size:13px;color:#00e676;font-weight:700;margin-bottom:12px;}
+.contact-item{display:flex;align-items:center;gap:10px;padding:8px 0;}
+.contact-item+.contact-item{border-top:1px solid #1e2e1e;}
+.contact-icon{font-size:18px;}
+.contact-info{display:flex;flex-direction:column;}
+.contact-info small{font-size:11px;color:#9090aa;}
+.contact-info span{font-size:15px;color:#eeeef5;font-weight:600;}
+.buy-modal-btns{display:flex;gap:10px;}
+.buy-cancel{flex:1;padding:14px;background:#1e1e2a;border:none;color:#9090aa;border-radius:12px;font-size:15px;font-weight:600;cursor:pointer;}
+.buy-confirm{flex:2;padding:14px;background:var(--accent);border:none;color:#000;border-radius:12px;font-size:15px;font-weight:700;cursor:pointer;}
+.buy-confirm:disabled{opacity:.6;}
 </style>
 </head>
 <body>
@@ -670,6 +733,14 @@ html, body {
       <div class="field">
         <label>Pattern (ixtiyoriy)</label>
         <input type="number" id="f-pattern" placeholder="masalan: 412"/>
+      </div>
+      <div class="field">
+        <label>TELEFON RAQAMI *</label>
+        <input type="tel" id="f-phone" placeholder="+998901234567"/>
+      </div>
+      <div class="field">
+        <label>TELEGRAM USERNAME *</label>
+        <input type="text" id="f-tg" placeholder="@username"/>
       </div>
       <button class="submit-btn" id="sellBtn" onclick="submitSkin()">
          Skin yuklash
@@ -973,6 +1044,12 @@ async function submitSkin() {
   if (fv) fd.append('float_value', fv);
   if (pat) fd.append('pattern', pat);
   if (desc) fd.append('description', desc);
+  const phone = document.getElementById('f-phone').value;
+  const tgUser = document.getElementById('f-tg').value;
+  if (!phone) { toast("Telefon raqamini kiriting"); return; }
+  if (!tgUser) { toast("Telegram username kiriting"); return; }
+  fd.append('phone', phone);
+  fd.append('tg_username', tgUser.replace('@',''));
 
   try {
     const r = await fetch(API + '/api/skins', { method:'POST', body: fd });
@@ -1049,5 +1126,41 @@ function openSupport() {
   await loadSkins();
 })();
 </script>
+
+<div class="buy-modal-overlay" id="buyModalOverlay">
+  <div class="buy-modal">
+    <div class="buy-modal-title">🛡️ Xavfsiz to'lov tizimi</div>
+    <div class="buy-modal-sub" id="buyModalSkinName"></div>
+    <div class="escrow-box">
+      <p>
+        <strong>Pullaringiz himoyada!</strong><br><br>
+        To'lovingiz <strong>darhol sotuvchiga o'tmaydi</strong> — pul bizning xavfsiz tizimimizda saqlanadi.<br><br>
+        ✅ Sotuvchi skinni sizning <strong>Trade Linkingizga</strong> tashlab bergandan keyin, pul sotuvchiga avtomatik o'tkaziladi.<br><br>
+        📞 Jarayonni tezlashtirish uchun — to'lovdan keyin sotuvchi kontaktlari ko'rsatiladi, u bilan bog'laning.
+      </p>
+    </div>
+    <div class="seller-contacts-box" id="sellerContactsBox">
+      <h4>✅ To'lov muvaffaqiyatli! Sotuvchi bilan bog'laning:</h4>
+      <div class="contact-item">
+        <span class="contact-icon">📞</span>
+        <div class="contact-info">
+          <small>Telefon raqami</small>
+          <span id="sellerPhoneVal">—</span>
+        </div>
+      </div>
+      <div class="contact-item">
+        <span class="contact-icon">💬</span>
+        <div class="contact-info">
+          <small>Telegram</small>
+          <span id="sellerTgVal">—</span>
+        </div>
+      </div>
+    </div>
+    <div class="buy-modal-btns" id="buyModalBtns">
+      <button class="buy-cancel" onclick="closeBuyModal()">Bekor</button>
+      <button class="buy-confirm" id="buyConfirmBtn" onclick="confirmBuy()">💳 To'lovni tasdiqlash</button>
+    </div>
+  </div>
+</div>
 </body>
 </html>
