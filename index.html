@@ -950,7 +950,7 @@ function cardHtml(s) {
         ? `<button class="buy-btn" style="background:var(--card2);color:var(--sub);border:1px solid var(--border)" disabled>
               Sizning lotingiz
            </button>`
-        : `<button class="buy-btn" onclick="openBuyModal(${JSON.stringify(s).replace(/"/g,'&quot;')})">
+        : `<button class="buy-btn" onclick="openBuyModal(s.id, s.name, s.price)">
               Sotib olish
            </button>`}
     </div>
@@ -958,47 +958,7 @@ function cardHtml(s) {
 }
 
 // === BUY ===
-function openBuyModal(skin) {
-  if (!user) { toast('Iltimos kuting...', 'error'); return; }
-  if (!user.trade_link) {
-    toast(' Avval trade link o\'rnating!', 'error');
-    setTimeout(() => openTradeModal(), 600);
-    return;
-  }
-  pendingBuy = skin;
-  document.getElementById('buyEmoji').textContent = typeEmoji(skin.skin_type);
-  document.getElementById('buyName').textContent = skin.name;
-  document.getElementById('buyPrice').textContent = fmtPrice(skin.price);
-  document.getElementById('buyInfo').innerHTML =
-    `<div class="chip">${skin.exterior}</div>
-     ${skin.float_value != null ? `<div class="chip">Float: ${parseFloat(skin.float_value).toFixed(4)}</div>` : ''}
-     ${skin.pattern != null ? `<div class="chip">Pattern: #${skin.pattern}</div>` : ''}`;
-  openModal('buyOverlay');
-}
 
-async function confirmBuy() {
-  if (!pendingBuy || !user) return;
-  const btn = document.getElementById('confirmBuyBtn');
-  btn.disabled = true;
-  btn.textContent = ' Yuborilmoqda...';
-  try {
-    const fd = new FormData();
-    fd.append('buyer_id', user.telegram_id);
-    const r = await fetch(API + '/api/skins/' + pendingBuy.id + '/buy', { method:'POST', body: fd });
-    if (!r.ok) { const e = await r.json(); throw new Error(e.detail || 'Xato'); }
-    closeModal('buyOverlay');
-    toast(' So\'rov yuborildi! Sotuvchi siz bilan bog\'lanadi.');
-    setTimeout(loadSkins, 800);
-  } catch(e) {
-    toast(' ' + (e.message || 'Xato yuz berdi'), 'error');
-  } finally {
-    btn.disabled = false;
-    btn.textContent = ' Sotib olishni tasdiqlash';
-    pendingBuy = null;
-  }
-}
-
-// === SELL ===
 function openSellModal() {
   if (!user) { toast('Iltimos kuting...', 'error'); return; }
   openModal('sellOverlay');
